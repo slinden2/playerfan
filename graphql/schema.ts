@@ -49,17 +49,4 @@ export const schema = makeSchema({
     typegen: path.join(process.cwd(), "generated", "nexus-typegen.ts"),
     schema: path.join(process.cwd(), "generated", "schema.graphql"),
   },
-  typegenAutoConfig: {
-    contextType: "Context.Context",
-    sources: [
-      {
-        source: "@prisma/client",
-        alias: "prisma",
-      },
-      {
-        source: path.join(process.cwd(), "graphql", "context.ts"),
-        alias: "Context",
-      },
-    ],
-  },
 });
