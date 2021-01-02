@@ -44,6 +44,10 @@ const Mutation = mutationType({
 
 export const schema = makeSchema({
   types: [Query, User, Mutation],
+  contextType: {
+    module: path.join(process.cwd(), "graphql", "context.ts"),
+    export: "Context",
+  },
   plugins: [nexusPrisma({ experimentalCRUD: true })],
   outputs: {
     typegen: path.join(process.cwd(), "generated", "nexus-typegen.ts"),
