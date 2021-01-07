@@ -197,9 +197,9 @@ model Game {
   homeTeamId      String
   skaterBoxscores SkaterBoxscore[] @relation("GameSkaterBoxscores")
   goalieBoxscores GoalieBoxscore[] @relation("GameGoalieBoxscores")
-  goalData        GoalData[]       @relation("GameGoals")
   gameRecap       Highlight?       @relation("GameHighlightRecap")
   gameCondensed   Highlight?       @relation("GameHighlightCondensed")
+  milestones      Milestone[]      @relation("GameMilestones")
 }
 
 enum Decision {
@@ -282,6 +282,8 @@ model Milestone {
   type          MilestoneType
   periodTime    Int
   periodNumber  Int
+  Game          Game          @relation("GameMilestones", fields: [gameId], references: [id])
+  gameId        String
   team          Team          @relation("TeamMilestone", fields: [teamId], references: [id])
   teamId        String
   opponent      Team          @relation("TeamMilestoneAgainst", fields: [opponentId], references: [id])
@@ -318,8 +320,6 @@ model GoalData {
   dateTime        DateTime
   coordX          Int
   coordY          Int
-  game            Game          @relation("GameGoals", fields: [gameId], references: [id])
-  gameId          String
   scorer          Player        @relation("PlayerGoalDataGoal", fields: [scorerId], references: [id])
   scorerId        String
   assist1         Player        @relation("PlayerGoalDataAssist1", fields: [assist1Id], references: [id])
