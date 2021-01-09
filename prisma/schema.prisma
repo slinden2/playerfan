@@ -205,13 +205,12 @@ enum Decision {
 }
 
 model SkaterBoxscore {
-  id                   String   @id @default(cuid())
+  id                   String @id @default(cuid())
   gamePk               Int
-  gameDate             DateTime
-  timeOnIce            Int
   assists              Int
   goals                Int
   points               Int
+  shots                Int
   hits                 Int
   powerPlayGoals       Int
   powerPlayAssists     Int
@@ -224,21 +223,21 @@ model SkaterBoxscore {
   shortHandedAssists   Int
   blocked              Int
   plusMinus            Int
+  timeOnIce            Int
   evenTimeOnIce        Int
   powerPlayTimeOnIce   Int
   shortHandedTimeOnIce Int
-  player               Player   @relation("PlayerSkaterBoxscores", fields: [playerId], references: [id])
+  player               Player @relation("PlayerSkaterBoxscores", fields: [playerId], references: [id])
   playerId             String
-  game                 Game     @relation("GameSkaterBoxscores", fields: [gameId], references: [id])
+  game                 Game   @relation("GameSkaterBoxscores", fields: [gameId], references: [id])
   gameId               String
 
   @@unique([gameId, playerId])
 }
 
 model GoalieBoxscore {
-  id                      String   @id @default(cuid())
+  id                      String    @id @default(cuid())
   gamePk                  Int
-  gameDate                DateTime
   timeOnIce               Int
   assists                 Int
   goals                   Int
@@ -248,15 +247,16 @@ model GoalieBoxscore {
   evenSaves               Int
   shortHandedShotsAgainst Int
   powerPlayShotsAgainst   Int
-  decision                Decision
+  decision                Decision?
   shotsAgainst            Int
   penaltyMinutes          Int
   savePct                 Float
-  evenSavePct             Float
-  powerPlaySavePct        Float
-  player                  Player   @relation("PlayerGoalieBoxscores", fields: [playerId], references: [id])
+  powerPlaySavePct        Float?
+  shortHandedSavePct      Float?
+  evenSavePct             Float?
+  player                  Player    @relation("PlayerGoalieBoxscores", fields: [playerId], references: [id])
   playerId                String
-  game                    Game     @relation("GameGoalieBoxscores", fields: [gameId], references: [id])
+  game                    Game      @relation("GameGoalieBoxscores", fields: [gameId], references: [id])
   gameId                  String
 
   @@unique([gameId, playerId])
