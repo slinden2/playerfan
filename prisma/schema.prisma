@@ -62,7 +62,7 @@ model Division {
 }
 
 model Team {
-  id                 String          @id @default(cuid())
+  id                 String           @id @default(cuid())
   season             String
   teamIdApi          Int
   link               String
@@ -76,52 +76,22 @@ model Team {
   officialSiteUrl    String
   active             Boolean
   twitterHashtag     String
-  conference         Conference      @relation(fields: [conferenceId], references: [id])
+  conference         Conference       @relation(fields: [conferenceId], references: [id])
   conferenceId       String
-  division           Division        @relation(fields: [divisionId], references: [id])
+  division           Division         @relation(fields: [divisionId], references: [id])
   divisionId         String
-  players            Player[]        @relation("TeamPlayer")
-  awayGames          Game[]          @relation("TeamAwayGames")
-  homeGames          Game[]          @relation("TeamHomeGames")
-  linescores         Linescore[]     @relation("TeamLinescore")
-  opponentLinescores Linescore[]     @relation("OpponentLinescore")
-  highlights         Highlight[]     @relation("TeamHighlight")
-  highlightsAgainst  Highlight[]     @relation("TeamHighlightAgainst")
-  highlightMeta      HighlightMeta[] @relation("TeamHighlightMeta")
+  players            Player[]         @relation("TeamPlayer")
+  awayGames          Game[]           @relation("TeamAwayGames")
+  homeGames          Game[]           @relation("TeamHomeGames")
+  linescores         Linescore[]      @relation("TeamLinescore")
+  opponentLinescores Linescore[]      @relation("OpponentLinescore")
+  skaterBoxscores    SkaterBoxscore[] @relation("TeamSkaterBoxscore")
+  goalieBoxscores    GoalieBoxscore[] @relation("TeamGoalieBoxscore")
+  highlights         Highlight[]      @relation("TeamHighlight")
+  highlightsAgainst  Highlight[]      @relation("TeamHighlightAgainst")
+  highlightMeta      HighlightMeta[]  @relation("TeamHighlightMeta")
 
   @@unique([season, teamIdApi])
-}
-
-model Linescore {
-  id                            String  @id @default(cuid())
-  win                           Boolean
-  otWin                         Boolean
-  shootOutWin                   Boolean
-  loss                          Boolean
-  ot                            Boolean
-  gamePk                        Int
-  isHomeGame                    Boolean
-  points                        Int
-  goalsFor                      Int
-  goalsAgainst                  Int
-  penaltyMinutes                Int
-  shotsFor                      Int
-  shotsAgainst                  Int
-  powerPlayGoals                Int
-  powerPlayGoalsAllowed         Int
-  powerPlayOpportunities        Int
-  powerPlayOpportunitiesAgainst Int
-  faceOffsTaken                 Int
-  faceOffWins                   Int
-  blocked                       Int
-  takeaways                     Int
-  giveaways                     Int
-  team                          Team    @relation("TeamLinescore", fields: [teamId], references: [id])
-  teamId                        String
-  opponent                      Team    @relation("OpponentLinescore", fields: [opponentId], references: [id])
-  opponentId                    String
-
-  @@unique([gamePk, teamId])
 }
 
 enum ShootsCatches {
@@ -132,6 +102,7 @@ enum ShootsCatches {
 enum RosterStatus {
   N
   Y
+  I
 }
 
 enum Position {
@@ -181,27 +152,64 @@ enum GameType {
 }
 
 model Game {
-  id              String           @id @default(cuid())
-  gamePk          Int              @unique
-  liveLink        String           @unique
-  contentLink     String           @unique
-  gameDate        DateTime
-  apiDate         DateTime
-  gameType        GameType
-  awayScore       Int
-  homeScore       Int
-  awayTeam        Team             @relation("TeamAwayGames", fields: [awayTeamId], references: [id])
-  awayTeamId      String
-  homeTeam        Team             @relation("TeamHomeGames", fields: [homeTeamId], references: [id])
-  homeTeamId      String
-  skaterBoxscores SkaterBoxscore[] @relation("GameSkaterBoxscores")
-  goalieBoxscores GoalieBoxscore[] @relation("GameGoalieBoxscores")
-  highlight       Highlight[]      @relation("GameHighlight")
+  id                   String           @id @default(cuid())
+  gamePk               Int              @unique
+  liveLink             String           @unique
+  contentLink          String           @unique
+  gameDate             DateTime
+  apiDate              DateTime
+  gameType             GameType
+  awayScore            Int
+  homeScore            Int
+  boxscoresFetched     Boolean          @default(false)
+  linescoresFetched    Boolean          @default(false)
+  highlightsFetched    Boolean          @default(false)
+  highlightMetaFetched Boolean          @default(false)
+  playbacksFetched     Boolean          @default(false)
+  awayTeam             Team             @relation("TeamAwayGames", fields: [awayTeamId], references: [id])
+  awayTeamId           String
+  homeTeam             Team             @relation("TeamHomeGames", fields: [homeTeamId], references: [id])
+  homeTeamId           String
+  linescores           Linescore[]      @relation("GameLinescore")
+  skaterBoxscores      SkaterBoxscore[] @relation("GameSkaterBoxscores")
+  goalieBoxscores      GoalieBoxscore[] @relation("GameGoalieBoxscores")
+  highlight            Highlight[]      @relation("GameHighlight")
 }
 
-enum Decision {
-  L
-  W
+model Linescore {
+  id                            String  @id @default(cuid())
+  gamePk                        Int
+  win                           Boolean
+  otWin                         Boolean
+  shootOutWin                   Boolean
+  loss                          Boolean
+  ot                            Boolean
+  isHomeGame                    Boolean
+  points                        Int
+  goalsFor                      Int
+  goalsAgainst                  Int
+  penaltyMinutes                Int
+  shotsFor                      Int
+  shotsAgainst                  Int
+  powerPlayGoals                Int
+  powerPlayGoalsAllowed         Int
+  powerPlayOpportunities        Int
+  powerPlayOpportunitiesAllowed Int
+  faceOffsTaken                 Int
+  faceOffWins                   Int
+  blocked                       Int
+  takeaways                     Int
+  giveaways                     Int
+  hitsFor                       Int
+  hitsAgainst                   Int
+  team                          Team    @relation("TeamLinescore", fields: [teamId], references: [id])
+  teamId                        String
+  opponent                      Team    @relation("OpponentLinescore", fields: [opponentId], references: [id])
+  opponentId                    String
+  game                          Game    @relation("GameLinescore", fields: [gameId], references: [id])
+  gameId                        String
+
+  @@unique([gamePk, teamId])
 }
 
 model SkaterBoxscore {
@@ -231,8 +239,15 @@ model SkaterBoxscore {
   playerId             String
   game                 Game   @relation("GameSkaterBoxscores", fields: [gameId], references: [id])
   gameId               String
+  team                 Team   @relation("TeamSkaterBoxscore", fields: [teamId], references: [id])
+  teamId               String
 
   @@unique([gameId, playerId])
+}
+
+enum Decision {
+  L
+  W
 }
 
 model GoalieBoxscore {
@@ -258,6 +273,8 @@ model GoalieBoxscore {
   playerId                String
   game                    Game      @relation("GameGoalieBoxscores", fields: [gameId], references: [id])
   gameId                  String
+  team                    Team      @relation("TeamGoalieBoxscore", fields: [teamId], references: [id])
+  teamId                  String
 
   @@unique([gameId, playerId])
 }
@@ -281,9 +298,8 @@ enum HighlightType {
 
 model Highlight {
   id                 String         @id @default(cuid())
-  type               HighlightType
   gamePk             Int
-  apiDate            DateTime
+  type               HighlightType
   videoIdApi         Int            @unique
   title              String
   blurb              String
@@ -320,10 +336,10 @@ model HighlightMeta {
   coordY          Int
   scorer          Player        @relation("PlayerHighlightMetaGoal", fields: [scorerId], references: [id])
   scorerId        String
-  assist1         Player        @relation("PlayerHighlightMetaAssist1", fields: [assist1Id], references: [id])
-  assist1Id       String
-  assist2         Player        @relation("PlayerHighlightMetaAssist2", fields: [assist2Id], references: [id])
-  assist2Id       String
+  assist1         Player?       @relation("PlayerHighlightMetaAssist1", fields: [assist1Id], references: [id])
+  assist1Id       String?
+  assist2         Player?       @relation("PlayerHighlightMetaAssist2", fields: [assist2Id], references: [id])
+  assist2Id       String?
   goalie          Player        @relation("PlayerHighlightMetaGoalie", fields: [goalieId], references: [id])
   goalieId        String
   team            Team          @relation("TeamHighlightMeta", fields: [teamId], references: [id])
