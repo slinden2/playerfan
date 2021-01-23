@@ -24,15 +24,15 @@ export const Player = objectType({
     t.model.rosterStatus();
     t.model.primaryPosition();
     t.model.active();
-    // t.model.currentTeam();
+    t.model.currentTeam();
     t.model.teamId();
-    // t.model.skaterBoxscores();
-    // t.model.goalieBoxscores();
-    // t.model.highlightMetaGoal();
-    // t.model.highlightMetaAssist1();
-    // t.model.highlightMetaAssist2();
-    // t.model.highlightMetaGoalie();
-    // t.model.favoritedBy();
+    t.model.skaterBoxscores();
+    t.model.goalieBoxscores();
+    t.model.highlightMetaGoal();
+    t.model.highlightMetaAssist1();
+    t.model.highlightMetaAssist2();
+    t.model.highlightMetaGoalie();
+    t.model.favoritedBy();
   },
 });
 
