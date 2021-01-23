@@ -9,8 +9,8 @@ import { Context } from "./../graphql/context"
 
 declare global {
   interface NexusGenCustomOutputProperties<TypeName extends string> {
-    crud: NexusPrisma<TypeName, 'crud'>
     model: NexusPrisma<TypeName, 'model'>
+    crud: any
   }
 }
 
@@ -19,89 +19,12 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  DateTimeFieldUpdateOperationsInput: { // input type
-    set?: NexusGenScalars['DateTime'] | null; // DateTime
-  }
-  DateTimeFilter: { // input type
-    equals?: NexusGenScalars['DateTime'] | null; // DateTime
-    gt?: NexusGenScalars['DateTime'] | null; // DateTime
-    gte?: NexusGenScalars['DateTime'] | null; // DateTime
-    in?: NexusGenScalars['DateTime'][] | null; // [DateTime!]
-    lt?: NexusGenScalars['DateTime'] | null; // DateTime
-    lte?: NexusGenScalars['DateTime'] | null; // DateTime
-    not?: NexusGenInputs['NestedDateTimeFilter'] | null; // NestedDateTimeFilter
-    notIn?: NexusGenScalars['DateTime'][] | null; // [DateTime!]
-  }
-  NestedDateTimeFilter: { // input type
-    equals?: NexusGenScalars['DateTime'] | null; // DateTime
-    gt?: NexusGenScalars['DateTime'] | null; // DateTime
-    gte?: NexusGenScalars['DateTime'] | null; // DateTime
-    in?: NexusGenScalars['DateTime'][] | null; // [DateTime!]
-    lt?: NexusGenScalars['DateTime'] | null; // DateTime
-    lte?: NexusGenScalars['DateTime'] | null; // DateTime
-    not?: NexusGenInputs['NestedDateTimeFilter'] | null; // NestedDateTimeFilter
-    notIn?: NexusGenScalars['DateTime'][] | null; // [DateTime!]
-  }
-  NestedStringFilter: { // input type
-    contains?: string | null; // String
-    endsWith?: string | null; // String
-    equals?: string | null; // String
-    gt?: string | null; // String
-    gte?: string | null; // String
-    in?: string[] | null; // [String!]
-    lt?: string | null; // String
-    lte?: string | null; // String
-    not?: NexusGenInputs['NestedStringFilter'] | null; // NestedStringFilter
-    notIn?: string[] | null; // [String!]
-    startsWith?: string | null; // String
-  }
-  StringFieldUpdateOperationsInput: { // input type
-    set?: string | null; // String
-  }
-  StringFilter: { // input type
-    contains?: string | null; // String
-    endsWith?: string | null; // String
-    equals?: string | null; // String
-    gt?: string | null; // String
-    gte?: string | null; // String
-    in?: string[] | null; // [String!]
-    lt?: string | null; // String
-    lte?: string | null; // String
-    mode?: NexusGenEnums['QueryMode'] | null; // QueryMode
-    not?: NexusGenInputs['NestedStringFilter'] | null; // NestedStringFilter
-    notIn?: string[] | null; // [String!]
-    startsWith?: string | null; // String
-  }
-  UserCreateInput: { // input type
-    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    id?: string | null; // String
-    name: string; // String!
-  }
-  UserUpdateInput: { // input type
-    createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
-    id?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    name?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-  }
-  UserUpdateManyMutationInput: { // input type
-    createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
-    id?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    name?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-  }
-  UserWhereInput: { // input type
-    AND?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
-    createdAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
-    id?: NexusGenInputs['StringFilter'] | null; // StringFilter
-    name?: NexusGenInputs['StringFilter'] | null; // StringFilter
-    NOT?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
-    OR?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
-  }
-  UserWhereUniqueInput: { // input type
-    id?: string | null; // String
-  }
 }
 
 export interface NexusGenEnums {
-  QueryMode: "default" | "insensitive"
+  Position: "C" | "D" | "G" | "L" | "NA" | "R"
+  RosterStatus: "I" | "N" | "Y"
+  ShootsCatches: "L" | "R"
 }
 
 export interface NexusGenScalars {
@@ -114,16 +37,31 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  BatchPayload: { // root type
-    count: number; // Int!
-  }
-  Mutation: {};
-  Query: {};
-  User: { // root type
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
+  Player: { // root type
+    active: boolean; // Boolean!
+    alternateCaptain: boolean; // Boolean!
+    birthCity: string; // String!
+    birthCountry: string; // String!
+    birthDate: NexusGenScalars['DateTime']; // DateTime!
+    birthStateProvince?: string | null; // String
+    captain: boolean; // Boolean!
+    firstName: string; // String!
+    height: number; // Int!
     id: string; // String!
-    name: string; // String!
+    lastName: string; // String!
+    link: string; // String!
+    nationality: string; // String!
+    playerIdApi: number; // Int!
+    primaryNumber: number; // Int!
+    primaryPosition: NexusGenEnums['Position']; // Position!
+    rookie: boolean; // Boolean!
+    rosterStatus: NexusGenEnums['RosterStatus']; // RosterStatus!
+    shootsCatches: NexusGenEnums['ShootsCatches']; // ShootsCatches!
+    siteLink: string; // String!
+    teamId: string; // String!
+    weight: number; // Int!
   }
+  Query: {};
 }
 
 export interface NexusGenInterfaces {
@@ -137,84 +75,66 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
-  BatchPayload: { // field return type
-    count: number; // Int!
-  }
-  Mutation: { // field return type
-    bigRedButton: string | null; // String
-    createOneUser: NexusGenRootTypes['User']; // User!
-    deleteManyUser: NexusGenRootTypes['BatchPayload']; // BatchPayload!
-    deleteOneUser: NexusGenRootTypes['User'] | null; // User
-    updateManyUser: NexusGenRootTypes['BatchPayload']; // BatchPayload!
-    updateOneUser: NexusGenRootTypes['User'] | null; // User
+  Player: { // field return type
+    active: boolean; // Boolean!
+    alternateCaptain: boolean; // Boolean!
+    birthCity: string; // String!
+    birthCountry: string; // String!
+    birthDate: NexusGenScalars['DateTime']; // DateTime!
+    birthStateProvince: string | null; // String
+    captain: boolean; // Boolean!
+    firstName: string; // String!
+    height: number; // Int!
+    id: string; // String!
+    lastName: string; // String!
+    link: string; // String!
+    nationality: string; // String!
+    playerIdApi: number; // Int!
+    primaryNumber: number; // Int!
+    primaryPosition: NexusGenEnums['Position']; // Position!
+    rookie: boolean; // Boolean!
+    rosterStatus: NexusGenEnums['RosterStatus']; // RosterStatus!
+    shootsCatches: NexusGenEnums['ShootsCatches']; // ShootsCatches!
+    siteLink: string; // String!
+    teamId: string; // String!
+    weight: number; // Int!
   }
   Query: { // field return type
-    allUsers: Array<NexusGenRootTypes['User'] | null> | null; // [User]
-    user: NexusGenRootTypes['User'] | null; // User
-    users: NexusGenRootTypes['User'][]; // [User!]!
-  }
-  User: { // field return type
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    id: string; // String!
-    name: string; // String!
+    allPlayers: Array<NexusGenRootTypes['Player'] | null>; // [Player]!
   }
 }
 
 export interface NexusGenFieldTypeNames {
-  BatchPayload: { // field return type name
-    count: 'Int'
-  }
-  Mutation: { // field return type name
-    bigRedButton: 'String'
-    createOneUser: 'User'
-    deleteManyUser: 'BatchPayload'
-    deleteOneUser: 'User'
-    updateManyUser: 'BatchPayload'
-    updateOneUser: 'User'
+  Player: { // field return type name
+    active: 'Boolean'
+    alternateCaptain: 'Boolean'
+    birthCity: 'String'
+    birthCountry: 'String'
+    birthDate: 'DateTime'
+    birthStateProvince: 'String'
+    captain: 'Boolean'
+    firstName: 'String'
+    height: 'Int'
+    id: 'String'
+    lastName: 'String'
+    link: 'String'
+    nationality: 'String'
+    playerIdApi: 'Int'
+    primaryNumber: 'Int'
+    primaryPosition: 'Position'
+    rookie: 'Boolean'
+    rosterStatus: 'RosterStatus'
+    shootsCatches: 'ShootsCatches'
+    siteLink: 'String'
+    teamId: 'String'
+    weight: 'Int'
   }
   Query: { // field return type name
-    allUsers: 'User'
-    user: 'User'
-    users: 'User'
-  }
-  User: { // field return type name
-    createdAt: 'DateTime'
-    id: 'String'
-    name: 'String'
+    allPlayers: 'Player'
   }
 }
 
 export interface NexusGenArgTypes {
-  Mutation: {
-    createOneUser: { // args
-      data: NexusGenInputs['UserCreateInput']; // UserCreateInput!
-    }
-    deleteManyUser: { // args
-      where?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
-    }
-    deleteOneUser: { // args
-      where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!
-    }
-    updateManyUser: { // args
-      data: NexusGenInputs['UserUpdateManyMutationInput']; // UserUpdateManyMutationInput!
-      where?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
-    }
-    updateOneUser: { // args
-      data: NexusGenInputs['UserUpdateInput']; // UserUpdateInput!
-      where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!
-    }
-  }
-  Query: {
-    user: { // args
-      where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!
-    }
-    users: { // args
-      after?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
-      before?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
-      first?: number | null; // Int
-      last?: number | null; // Int
-    }
-  }
 }
 
 export interface NexusGenAbstractTypeMembers {
@@ -225,7 +145,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = keyof NexusGenInputs;
+export type NexusGenInputNames = never;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 
