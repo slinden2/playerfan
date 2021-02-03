@@ -28,43 +28,65 @@ model User {
   role            Role        @default(USER)
   favoritePlayers Player[]    @relation("UserFavoritePlayers")
   likedHighlights Highlight[] @relation("UserLikesHighlight")
+  comments        Comment[]   @relation("UserComment")
 }
 
 model Conference {
-  id              String     @id @default(cuid())
-  season          String
-  conferenceIdApi Int
+  id              String                    @id @default(cuid())
+  conferenceIdApi Int                       @unique
   link            String
   name            String
   shortName       String
   abbreviation    String
-  active          Boolean
-  divisions       Division[]
-  teams           Team[]
+  activeSeasons   ConferenceActiveSeasons[]
+  divisions       DivisionConference[]
+  teams           TeamConference[]
+}
 
-  @@unique([season, conferenceIdApi])
+model ConferenceActiveSeasons {
+  id           String     @id @default(cuid())
+  season       String
+  conference   Conference @relation(fields: [conferenceId], references: [id])
+  conferenceId String
+
+  @@unique([season, conferenceId])
 }
 
 model Division {
-  id            String     @id @default(cuid())
-  season        String
-  divisionIdApi Int
+  id            String                  @id @default(cuid())
+  divisionIdApi Int                     @unique
   link          String
   name          String
   shortName     String
   abbreviation  String
-  active        Boolean
-  conference    Conference @relation(fields: [conferenceId], references: [id])
-  conferenceId  String
-  teams         Team[]
+  activeSeasons DivisionActiveSeasons[]
+  conferences   DivisionConference[]
+  teams         TeamDivision[]
+}
 
-  @@unique([season, divisionIdApi])
+model DivisionActiveSeasons {
+  id         String   @id @default(cuid())
+  season     String
+  division   Division @relation(fields: [divisionId], references: [id])
+  divisionId String
+
+  @@unique([season, divisionId])
+}
+
+model DivisionConference {
+  id           String     @id @default(cuid())
+  season       String
+  conference   Conference @relation(fields: [conferenceId], references: [id])
+  conferenceId String
+  division     Division   @relation(fields: [divisionId], references: [id])
+  divisionId   String
+
+  @@unique([season, conferenceId, divisionId])
 }
 
 model Team {
-  id                 String           @id @default(cuid())
-  season             String
-  teamIdApi          Int
+  id                 String              @id @default(cuid())
+  teamIdApi          Int                 @unique
   link               String
   siteLink           String
   name               String
@@ -74,24 +96,51 @@ model Team {
   locationName       String
   firstYearOfPlay    Int
   officialSiteUrl    String
-  active             Boolean
   twitterHashtag     String
-  conference         Conference       @relation(fields: [conferenceId], references: [id])
-  conferenceId       String
-  division           Division         @relation(fields: [divisionId], references: [id])
-  divisionId         String
-  players            Player[]         @relation("TeamPlayer")
-  awayGames          Game[]           @relation("TeamAwayGames")
-  homeGames          Game[]           @relation("TeamHomeGames")
-  linescores         Linescore[]      @relation("TeamLinescore")
-  opponentLinescores Linescore[]      @relation("OpponentLinescore")
-  skaterBoxscores    SkaterBoxscore[] @relation("TeamSkaterBoxscore")
-  goalieBoxscores    GoalieBoxscore[] @relation("TeamGoalieBoxscore")
-  highlights         Highlight[]      @relation("TeamHighlight")
-  highlightsAgainst  Highlight[]      @relation("TeamHighlightAgainst")
-  highlightMeta      HighlightMeta[]  @relation("TeamHighlightMeta")
+  activeSeasons      TeamActiveSeasons[]
+  conferences        TeamConference[]
+  divisions          TeamDivision[]
+  players            PlayerTeam[]
+  awayGames          Game[]              @relation("TeamAwayGames")
+  homeGames          Game[]              @relation("TeamHomeGames")
+  linescores         Linescore[]         @relation("TeamLinescore")
+  opponentLinescores Linescore[]         @relation("OpponentLinescore")
+  skaterBoxscores    SkaterBoxscore[]    @relation("TeamSkaterBoxscore")
+  goalieBoxscores    GoalieBoxscore[]    @relation("TeamGoalieBoxscore")
+  highlights         Highlight[]         @relation("TeamHighlight")
+  highlightsAgainst  Highlight[]         @relation("TeamHighlightAgainst")
+  highlightMeta      HighlightMeta[]     @relation("TeamHighlightMeta")
+}
 
-  @@unique([season, teamIdApi])
+model TeamActiveSeasons {
+  id     String @id @default(cuid())
+  season String
+  team   Team   @relation(fields: [teamId], references: [id])
+  teamId String
+
+  @@unique([season, teamId])
+}
+
+model TeamConference {
+  id           String     @id @default(cuid())
+  season       String
+  conference   Conference @relation(fields: [conferenceId], references: [id])
+  conferenceId String
+  team         Team       @relation(fields: [teamId], references: [id])
+  teamId       String
+
+  @@unique([season, conferenceId, teamId])
+}
+
+model TeamDivision {
+  id         String   @id @default(cuid())
+  season     String
+  division   Division @relation(fields: [divisionId], references: [id])
+  divisionId String
+  team       Team     @relation(fields: [teamId], references: [id])
+  teamId     String
+
+  @@unique([season, divisionId, teamId])
 }
 
 enum ShootsCatches {
@@ -136,8 +185,7 @@ model Player {
   rosterStatus         RosterStatus
   primaryPosition      Position
   active               Boolean
-  currentTeam          Team             @relation("TeamPlayer", fields: [teamId], references: [id])
-  teamId               String
+  teams                PlayerTeam[]
   skaterBoxscores      SkaterBoxscore[] @relation("PlayerSkaterBoxscores")
   goalieBoxscores      GoalieBoxscore[] @relation("PlayerGoalieBoxscores")
   highlightMetaGoal    HighlightMeta[]  @relation("PlayerHighlightMetaGoal")
@@ -145,6 +193,18 @@ model Player {
   highlightMetaAssist2 HighlightMeta[]  @relation("PlayerHighlightMetaAssist2")
   highlightMetaGoalie  HighlightMeta[]  @relation("PlayerHighlightMetaGoalie")
   favoritedBy          User[]           @relation("UserFavoritePlayers", references: [id])
+}
+
+model PlayerTeam {
+  id        String    @id @default(cuid())
+  startDate DateTime
+  endDate   DateTime?
+  team      Team?     @relation(fields: [teamId], references: [id])
+  teamId    String?
+  player    Player    @relation(fields: [playerId], references: [id])
+  playerId  String
+
+  @@unique([startDate, teamId, playerId])
 }
 
 enum GameType {
@@ -359,6 +419,8 @@ model Comment {
   content     String
   highlight   Highlight @relation("HighlightComment", fields: [highlightId], references: [id])
   highlightId String
+  author      User      @relation("UserComment", fields: [authorId], references: [id])
+  authorId    String
 }
 
 model PlaybackType {
