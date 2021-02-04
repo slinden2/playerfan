@@ -9,8 +9,8 @@ import { Context } from "./../graphql/context"
 
 declare global {
   interface NexusGenCustomOutputProperties<TypeName extends string> {
+    crud: NexusPrisma<TypeName, 'crud'>
     model: NexusPrisma<TypeName, 'model'>
-    crud: any
   }
 }
 
@@ -22,21 +22,30 @@ export interface NexusGenInputs {
   CommentWhereUniqueInput: { // input type
     id?: string | null; // String
   }
-  DivisionWhereUniqueInput: { // input type
+  ConferenceActiveSeasonsSeasonConferenceIdCompoundUniqueInput: { // input type
+    conferenceId: string; // String!
+    season: string; // String!
+  }
+  ConferenceActiveSeasonsWhereUniqueInput: { // input type
     id?: string | null; // String
-    season_divisionIdApi?: NexusGenInputs['SeasonDivisionIdApiCompoundUniqueInput'] | null; // SeasonDivisionIdApiCompoundUniqueInput
+    season_conferenceId?: NexusGenInputs['ConferenceActiveSeasonsSeasonConferenceIdCompoundUniqueInput'] | null; // ConferenceActiveSeasonsSeasonConferenceIdCompoundUniqueInput
   }
-  GameIdPlayerIdCompoundUniqueInput: { // input type
-    gameId: string; // String!
-    playerId: string; // String!
+  DivisionActiveSeasonsSeasonDivisionIdCompoundUniqueInput: { // input type
+    divisionId: string; // String!
+    season: string; // String!
   }
-  GamePkEventIdApiCompoundUniqueInput: { // input type
-    eventIdApi: number; // Int!
-    gamePk: number; // Int!
+  DivisionActiveSeasonsWhereUniqueInput: { // input type
+    id?: string | null; // String
+    season_divisionId?: NexusGenInputs['DivisionActiveSeasonsSeasonDivisionIdCompoundUniqueInput'] | null; // DivisionActiveSeasonsSeasonDivisionIdCompoundUniqueInput
   }
-  GamePkTeamIdCompoundUniqueInput: { // input type
-    gamePk: number; // Int!
-    teamId: string; // String!
+  DivisionConferenceSeasonConferenceIdDivisionIdCompoundUniqueInput: { // input type
+    conferenceId: string; // String!
+    divisionId: string; // String!
+    season: string; // String!
+  }
+  DivisionConferenceWhereUniqueInput: { // input type
+    id?: string | null; // String
+    season_conferenceId_divisionId?: NexusGenInputs['DivisionConferenceSeasonConferenceIdDivisionIdCompoundUniqueInput'] | null; // DivisionConferenceSeasonConferenceIdDivisionIdCompoundUniqueInput
   }
   GameWhereUniqueInput: { // input type
     contentLink?: string | null; // String
@@ -44,49 +53,88 @@ export interface NexusGenInputs {
     id?: string | null; // String
     liveLink?: string | null; // String
   }
+  GoalieBoxscoreGameIdPlayerIdCompoundUniqueInput: { // input type
+    gameId: string; // String!
+    playerId: string; // String!
+  }
   GoalieBoxscoreWhereUniqueInput: { // input type
-    gameId_playerId?: NexusGenInputs['GameIdPlayerIdCompoundUniqueInput'] | null; // GameIdPlayerIdCompoundUniqueInput
+    gameId_playerId?: NexusGenInputs['GoalieBoxscoreGameIdPlayerIdCompoundUniqueInput'] | null; // GoalieBoxscoreGameIdPlayerIdCompoundUniqueInput
     id?: string | null; // String
   }
+  HighlightMetaGamePkEventIdApiCompoundUniqueInput: { // input type
+    eventIdApi: number; // Int!
+    gamePk: number; // Int!
+  }
   HighlightMetaWhereUniqueInput: { // input type
-    gamePk_eventIdApi?: NexusGenInputs['GamePkEventIdApiCompoundUniqueInput'] | null; // GamePkEventIdApiCompoundUniqueInput
+    gamePk_eventIdApi?: NexusGenInputs['HighlightMetaGamePkEventIdApiCompoundUniqueInput'] | null; // HighlightMetaGamePkEventIdApiCompoundUniqueInput
     id?: string | null; // String
   }
   HighlightWhereUniqueInput: { // input type
     id?: string | null; // String
     videoIdApi?: number | null; // Int
   }
+  LinescoreGamePkTeamIdCompoundUniqueInput: { // input type
+    gamePk: number; // Int!
+    teamId: string; // String!
+  }
   LinescoreWhereUniqueInput: { // input type
-    gamePk_teamId?: NexusGenInputs['GamePkTeamIdCompoundUniqueInput'] | null; // GamePkTeamIdCompoundUniqueInput
+    gamePk_teamId?: NexusGenInputs['LinescoreGamePkTeamIdCompoundUniqueInput'] | null; // LinescoreGamePkTeamIdCompoundUniqueInput
     id?: string | null; // String
+  }
+  PlaybackUrlPlaybackTypeIdCompoundUniqueInput: { // input type
+    playbackTypeId: string; // String!
+    url: string; // String!
   }
   PlaybackWhereUniqueInput: { // input type
     id?: string | null; // String
-    url_playbackTypeId?: NexusGenInputs['UrlPlaybackTypeIdCompoundUniqueInput'] | null; // UrlPlaybackTypeIdCompoundUniqueInput
+    url_playbackTypeId?: NexusGenInputs['PlaybackUrlPlaybackTypeIdCompoundUniqueInput'] | null; // PlaybackUrlPlaybackTypeIdCompoundUniqueInput
+  }
+  PlayerTeamStartDateTeamIdPlayerIdCompoundUniqueInput: { // input type
+    playerId: string; // String!
+    startDate: NexusGenScalars['DateTime']; // DateTime!
+    teamId: string; // String!
+  }
+  PlayerTeamWhereUniqueInput: { // input type
+    id?: string | null; // String
+    startDate_teamId_playerId?: NexusGenInputs['PlayerTeamStartDateTeamIdPlayerIdCompoundUniqueInput'] | null; // PlayerTeamStartDateTeamIdPlayerIdCompoundUniqueInput
   }
   PlayerWhereUniqueInput: { // input type
     id?: string | null; // String
     playerIdApi?: number | null; // Int
   }
-  SeasonDivisionIdApiCompoundUniqueInput: { // input type
-    divisionIdApi: number; // Int!
-    season: string; // String!
-  }
-  SeasonTeamIdApiCompoundUniqueInput: { // input type
-    season: string; // String!
-    teamIdApi: number; // Int!
+  SkaterBoxscoreGameIdPlayerIdCompoundUniqueInput: { // input type
+    gameId: string; // String!
+    playerId: string; // String!
   }
   SkaterBoxscoreWhereUniqueInput: { // input type
-    gameId_playerId?: NexusGenInputs['GameIdPlayerIdCompoundUniqueInput'] | null; // GameIdPlayerIdCompoundUniqueInput
+    gameId_playerId?: NexusGenInputs['SkaterBoxscoreGameIdPlayerIdCompoundUniqueInput'] | null; // SkaterBoxscoreGameIdPlayerIdCompoundUniqueInput
     id?: string | null; // String
   }
-  TeamWhereUniqueInput: { // input type
-    id?: string | null; // String
-    season_teamIdApi?: NexusGenInputs['SeasonTeamIdApiCompoundUniqueInput'] | null; // SeasonTeamIdApiCompoundUniqueInput
+  TeamActiveSeasonsSeasonTeamIdCompoundUniqueInput: { // input type
+    season: string; // String!
+    teamId: string; // String!
   }
-  UrlPlaybackTypeIdCompoundUniqueInput: { // input type
-    playbackTypeId: string; // String!
-    url: string; // String!
+  TeamActiveSeasonsWhereUniqueInput: { // input type
+    id?: string | null; // String
+    season_teamId?: NexusGenInputs['TeamActiveSeasonsSeasonTeamIdCompoundUniqueInput'] | null; // TeamActiveSeasonsSeasonTeamIdCompoundUniqueInput
+  }
+  TeamConferenceSeasonConferenceIdTeamIdCompoundUniqueInput: { // input type
+    conferenceId: string; // String!
+    season: string; // String!
+    teamId: string; // String!
+  }
+  TeamConferenceWhereUniqueInput: { // input type
+    id?: string | null; // String
+    season_conferenceId_teamId?: NexusGenInputs['TeamConferenceSeasonConferenceIdTeamIdCompoundUniqueInput'] | null; // TeamConferenceSeasonConferenceIdTeamIdCompoundUniqueInput
+  }
+  TeamDivisionSeasonDivisionIdTeamIdCompoundUniqueInput: { // input type
+    divisionId: string; // String!
+    season: string; // String!
+    teamId: string; // String!
+  }
+  TeamDivisionWhereUniqueInput: { // input type
+    id?: string | null; // String
+    season_divisionId_teamId?: NexusGenInputs['TeamDivisionSeasonDivisionIdTeamIdCompoundUniqueInput'] | null; // TeamDivisionSeasonDivisionIdTeamIdCompoundUniqueInput
   }
   UserWhereUniqueInput: { // input type
     email?: string | null; // String
@@ -119,6 +167,7 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   Comment: { // root type
+    authorId: string; // String!
     content: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     highlightId: string; // String!
@@ -126,24 +175,35 @@ export interface NexusGenObjects {
   }
   Conference: { // root type
     abbreviation: string; // String!
-    active: boolean; // Boolean!
     conferenceIdApi: number; // Int!
     id: string; // String!
     link: string; // String!
     name: string; // String!
-    season: string; // String!
     shortName: string; // String!
+  }
+  ConferenceActiveSeasons: { // root type
+    conferenceId: string; // String!
+    id: string; // String!
+    season: string; // String!
   }
   Division: { // root type
     abbreviation: string; // String!
-    active: boolean; // Boolean!
-    conferenceId: string; // String!
     divisionIdApi: number; // Int!
     id: string; // String!
     link: string; // String!
     name: string; // String!
-    season: string; // String!
     shortName: string; // String!
+  }
+  DivisionActiveSeasons: { // root type
+    divisionId: string; // String!
+    id: string; // String!
+    season: string; // String!
+  }
+  DivisionConference: { // root type
+    conferenceId: string; // String!
+    divisionId: string; // String!
+    id: string; // String!
+    season: string; // String!
   }
   Game: { // root type
     apiDate: NexusGenScalars['DateTime']; // DateTime!
@@ -227,8 +287,8 @@ export interface NexusGenObjects {
   }
   Linescore: { // root type
     blocked: number; // Int!
-    faceOffsTaken: number; // Int!
     faceOffWins: number; // Int!
+    faceOffsTaken: number; // Int!
     gameId: string; // String!
     gamePk: number; // Int!
     giveaways: number; // Int!
@@ -288,16 +348,22 @@ export interface NexusGenObjects {
     rosterStatus: NexusGenEnums['RosterStatus']; // RosterStatus!
     shootsCatches: NexusGenEnums['ShootsCatches']; // ShootsCatches!
     siteLink: string; // String!
-    teamId: string; // String!
     weight: number; // Int!
+  }
+  PlayerTeam: { // root type
+    endDate?: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // String!
+    playerId: string; // String!
+    startDate: NexusGenScalars['DateTime']; // DateTime!
+    teamId?: string | null; // String
   }
   Query: {};
   SkaterBoxscore: { // root type
     assists: number; // Int!
     blocked: number; // Int!
     evenTimeOnIce: number; // Int!
-    faceOffsTaken: number; // Int!
     faceOffWins: number; // Int!
+    faceOffsTaken: number; // Int!
     gameId: string; // String!
     gamePk: number; // Int!
     giveaways: number; // Int!
@@ -321,21 +387,34 @@ export interface NexusGenObjects {
   }
   Team: { // root type
     abbreviation: string; // String!
-    active: boolean; // Boolean!
-    conferenceId: string; // String!
-    divisionId: string; // String!
     firstYearOfPlay: number; // Int!
     id: string; // String!
     link: string; // String!
     locationName: string; // String!
     name: string; // String!
     officialSiteUrl: string; // String!
-    season: string; // String!
     shortName: string; // String!
     siteLink: string; // String!
     teamIdApi: number; // Int!
     teamName: string; // String!
     twitterHashtag: string; // String!
+  }
+  TeamActiveSeasons: { // root type
+    id: string; // String!
+    season: string; // String!
+    teamId: string; // String!
+  }
+  TeamConference: { // root type
+    conferenceId: string; // String!
+    id: string; // String!
+    season: string; // String!
+    teamId: string; // String!
+  }
+  TeamDivision: { // root type
+    divisionId: string; // String!
+    id: string; // String!
+    season: string; // String!
+    teamId: string; // String!
   }
   User: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -361,6 +440,8 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnu
 
 export interface NexusGenFieldTypes {
   Comment: { // field return type
+    author: NexusGenRootTypes['User']; // User!
+    authorId: string; // String!
     content: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     highlight: NexusGenRootTypes['Highlight']; // Highlight!
@@ -369,28 +450,43 @@ export interface NexusGenFieldTypes {
   }
   Conference: { // field return type
     abbreviation: string; // String!
-    active: boolean; // Boolean!
+    activeSeasons: NexusGenRootTypes['ConferenceActiveSeasons'][]; // [ConferenceActiveSeasons!]!
     conferenceIdApi: number; // Int!
-    divisions: NexusGenRootTypes['Division'][]; // [Division!]!
+    divisions: NexusGenRootTypes['DivisionConference'][]; // [DivisionConference!]!
     id: string; // String!
     link: string; // String!
     name: string; // String!
-    season: string; // String!
     shortName: string; // String!
-    teams: NexusGenRootTypes['Team'][]; // [Team!]!
+  }
+  ConferenceActiveSeasons: { // field return type
+    conference: NexusGenRootTypes['Conference']; // Conference!
+    conferenceId: string; // String!
+    id: string; // String!
+    season: string; // String!
   }
   Division: { // field return type
     abbreviation: string; // String!
-    active: boolean; // Boolean!
-    conference: NexusGenRootTypes['Conference']; // Conference!
-    conferenceId: string; // String!
+    activeSeasons: NexusGenRootTypes['DivisionActiveSeasons'][]; // [DivisionActiveSeasons!]!
+    conferences: NexusGenRootTypes['DivisionConference'][]; // [DivisionConference!]!
     divisionIdApi: number; // Int!
     id: string; // String!
     link: string; // String!
     name: string; // String!
-    season: string; // String!
     shortName: string; // String!
-    teams: NexusGenRootTypes['Team'][]; // [Team!]!
+  }
+  DivisionActiveSeasons: { // field return type
+    division: NexusGenRootTypes['Division']; // Division!
+    divisionId: string; // String!
+    id: string; // String!
+    season: string; // String!
+  }
+  DivisionConference: { // field return type
+    conference: NexusGenRootTypes['Conference']; // Conference!
+    conferenceId: string; // String!
+    division: NexusGenRootTypes['Division']; // Division!
+    divisionId: string; // String!
+    id: string; // String!
+    season: string; // String!
   }
   Game: { // field return type
     apiDate: NexusGenScalars['DateTime']; // DateTime!
@@ -496,8 +592,8 @@ export interface NexusGenFieldTypes {
   }
   Linescore: { // field return type
     blocked: number; // Int!
-    faceOffsTaken: number; // Int!
     faceOffWins: number; // Int!
+    faceOffsTaken: number; // Int!
     game: NexusGenRootTypes['Game']; // Game!
     gameId: string; // String!
     gamePk: number; // Int!
@@ -550,7 +646,6 @@ export interface NexusGenFieldTypes {
     birthDate: NexusGenScalars['DateTime']; // DateTime!
     birthStateProvince: string | null; // String
     captain: boolean; // Boolean!
-    currentTeam: NexusGenRootTypes['Team']; // Team!
     favoritedBy: NexusGenRootTypes['User'][]; // [User!]!
     firstName: string; // String!
     goalieBoxscores: NexusGenRootTypes['GoalieBoxscore'][]; // [GoalieBoxscore!]!
@@ -571,18 +666,27 @@ export interface NexusGenFieldTypes {
     shootsCatches: NexusGenEnums['ShootsCatches']; // ShootsCatches!
     siteLink: string; // String!
     skaterBoxscores: NexusGenRootTypes['SkaterBoxscore'][]; // [SkaterBoxscore!]!
-    teamId: string; // String!
+    teams: NexusGenRootTypes['PlayerTeam'][]; // [PlayerTeam!]!
     weight: number; // Int!
   }
+  PlayerTeam: { // field return type
+    endDate: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // String!
+    player: NexusGenRootTypes['Player']; // Player!
+    playerId: string; // String!
+    startDate: NexusGenScalars['DateTime']; // DateTime!
+    team: NexusGenRootTypes['Team'] | null; // Team
+    teamId: string | null; // String
+  }
   Query: { // field return type
-    allPlayers: Array<NexusGenRootTypes['Player'] | null>; // [Player]!
+    allDivisions: Array<NexusGenRootTypes['Division'] | null>; // [Division]!
   }
   SkaterBoxscore: { // field return type
     assists: number; // Int!
     blocked: number; // Int!
     evenTimeOnIce: number; // Int!
-    faceOffsTaken: number; // Int!
     faceOffWins: number; // Int!
+    faceOffsTaken: number; // Int!
     game: NexusGenRootTypes['Game']; // Game!
     gameId: string; // String!
     gamePk: number; // Int!
@@ -609,12 +713,10 @@ export interface NexusGenFieldTypes {
   }
   Team: { // field return type
     abbreviation: string; // String!
-    active: boolean; // Boolean!
+    activeSeasons: NexusGenRootTypes['TeamActiveSeasons'][]; // [TeamActiveSeasons!]!
     awayGames: NexusGenRootTypes['Game'][]; // [Game!]!
-    conference: NexusGenRootTypes['Conference']; // Conference!
-    conferenceId: string; // String!
-    division: NexusGenRootTypes['Division']; // Division!
-    divisionId: string; // String!
+    conferences: NexusGenRootTypes['TeamConference'][]; // [TeamConference!]!
+    divisions: NexusGenRootTypes['TeamDivision'][]; // [TeamDivision!]!
     firstYearOfPlay: number; // Int!
     goalieBoxscores: NexusGenRootTypes['GoalieBoxscore'][]; // [GoalieBoxscore!]!
     highlightMeta: NexusGenRootTypes['HighlightMeta'][]; // [HighlightMeta!]!
@@ -628,8 +730,7 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     officialSiteUrl: string; // String!
     opponentLinescores: NexusGenRootTypes['Linescore'][]; // [Linescore!]!
-    players: NexusGenRootTypes['Player'][]; // [Player!]!
-    season: string; // String!
+    players: NexusGenRootTypes['PlayerTeam'][]; // [PlayerTeam!]!
     shortName: string; // String!
     siteLink: string; // String!
     skaterBoxscores: NexusGenRootTypes['SkaterBoxscore'][]; // [SkaterBoxscore!]!
@@ -637,7 +738,30 @@ export interface NexusGenFieldTypes {
     teamName: string; // String!
     twitterHashtag: string; // String!
   }
+  TeamActiveSeasons: { // field return type
+    id: string; // String!
+    season: string; // String!
+    team: NexusGenRootTypes['Team']; // Team!
+    teamId: string; // String!
+  }
+  TeamConference: { // field return type
+    conference: NexusGenRootTypes['Conference']; // Conference!
+    conferenceId: string; // String!
+    id: string; // String!
+    season: string; // String!
+    team: NexusGenRootTypes['Team']; // Team!
+    teamId: string; // String!
+  }
+  TeamDivision: { // field return type
+    division: NexusGenRootTypes['Division']; // Division!
+    divisionId: string; // String!
+    id: string; // String!
+    season: string; // String!
+    team: NexusGenRootTypes['Team']; // Team!
+    teamId: string; // String!
+  }
   User: { // field return type
+    comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     favoritePlayers: NexusGenRootTypes['Player'][]; // [Player!]!
@@ -653,6 +777,8 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   Comment: { // field return type name
+    author: 'User'
+    authorId: 'String'
     content: 'String'
     createdAt: 'DateTime'
     highlight: 'Highlight'
@@ -661,28 +787,43 @@ export interface NexusGenFieldTypeNames {
   }
   Conference: { // field return type name
     abbreviation: 'String'
-    active: 'Boolean'
+    activeSeasons: 'ConferenceActiveSeasons'
     conferenceIdApi: 'Int'
-    divisions: 'Division'
+    divisions: 'DivisionConference'
     id: 'String'
     link: 'String'
     name: 'String'
-    season: 'String'
     shortName: 'String'
-    teams: 'Team'
+  }
+  ConferenceActiveSeasons: { // field return type name
+    conference: 'Conference'
+    conferenceId: 'String'
+    id: 'String'
+    season: 'String'
   }
   Division: { // field return type name
     abbreviation: 'String'
-    active: 'Boolean'
-    conference: 'Conference'
-    conferenceId: 'String'
+    activeSeasons: 'DivisionActiveSeasons'
+    conferences: 'DivisionConference'
     divisionIdApi: 'Int'
     id: 'String'
     link: 'String'
     name: 'String'
-    season: 'String'
     shortName: 'String'
-    teams: 'Team'
+  }
+  DivisionActiveSeasons: { // field return type name
+    division: 'Division'
+    divisionId: 'String'
+    id: 'String'
+    season: 'String'
+  }
+  DivisionConference: { // field return type name
+    conference: 'Conference'
+    conferenceId: 'String'
+    division: 'Division'
+    divisionId: 'String'
+    id: 'String'
+    season: 'String'
   }
   Game: { // field return type name
     apiDate: 'DateTime'
@@ -788,8 +929,8 @@ export interface NexusGenFieldTypeNames {
   }
   Linescore: { // field return type name
     blocked: 'Int'
-    faceOffsTaken: 'Int'
     faceOffWins: 'Int'
+    faceOffsTaken: 'Int'
     game: 'Game'
     gameId: 'String'
     gamePk: 'Int'
@@ -842,7 +983,6 @@ export interface NexusGenFieldTypeNames {
     birthDate: 'DateTime'
     birthStateProvince: 'String'
     captain: 'Boolean'
-    currentTeam: 'Team'
     favoritedBy: 'User'
     firstName: 'String'
     goalieBoxscores: 'GoalieBoxscore'
@@ -863,18 +1003,27 @@ export interface NexusGenFieldTypeNames {
     shootsCatches: 'ShootsCatches'
     siteLink: 'String'
     skaterBoxscores: 'SkaterBoxscore'
-    teamId: 'String'
+    teams: 'PlayerTeam'
     weight: 'Int'
   }
+  PlayerTeam: { // field return type name
+    endDate: 'DateTime'
+    id: 'String'
+    player: 'Player'
+    playerId: 'String'
+    startDate: 'DateTime'
+    team: 'Team'
+    teamId: 'String'
+  }
   Query: { // field return type name
-    allPlayers: 'Player'
+    allDivisions: 'Division'
   }
   SkaterBoxscore: { // field return type name
     assists: 'Int'
     blocked: 'Int'
     evenTimeOnIce: 'Int'
-    faceOffsTaken: 'Int'
     faceOffWins: 'Int'
+    faceOffsTaken: 'Int'
     game: 'Game'
     gameId: 'String'
     gamePk: 'Int'
@@ -901,12 +1050,10 @@ export interface NexusGenFieldTypeNames {
   }
   Team: { // field return type name
     abbreviation: 'String'
-    active: 'Boolean'
+    activeSeasons: 'TeamActiveSeasons'
     awayGames: 'Game'
-    conference: 'Conference'
-    conferenceId: 'String'
-    division: 'Division'
-    divisionId: 'String'
+    conferences: 'TeamConference'
+    divisions: 'TeamDivision'
     firstYearOfPlay: 'Int'
     goalieBoxscores: 'GoalieBoxscore'
     highlightMeta: 'HighlightMeta'
@@ -920,8 +1067,7 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     officialSiteUrl: 'String'
     opponentLinescores: 'Linescore'
-    players: 'Player'
-    season: 'String'
+    players: 'PlayerTeam'
     shortName: 'String'
     siteLink: 'String'
     skaterBoxscores: 'SkaterBoxscore'
@@ -929,7 +1075,30 @@ export interface NexusGenFieldTypeNames {
     teamName: 'String'
     twitterHashtag: 'String'
   }
+  TeamActiveSeasons: { // field return type name
+    id: 'String'
+    season: 'String'
+    team: 'Team'
+    teamId: 'String'
+  }
+  TeamConference: { // field return type name
+    conference: 'Conference'
+    conferenceId: 'String'
+    id: 'String'
+    season: 'String'
+    team: 'Team'
+    teamId: 'String'
+  }
+  TeamDivision: { // field return type name
+    division: 'Division'
+    divisionId: 'String'
+    id: 'String'
+    season: 'String'
+    team: 'Team'
+    teamId: 'String'
+  }
   User: { // field return type name
+    comments: 'Comment'
     createdAt: 'DateTime'
     email: 'String'
     favoritePlayers: 'Player'
@@ -945,23 +1114,29 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Conference: {
-    divisions: { // args
-      after?: NexusGenInputs['DivisionWhereUniqueInput'] | null; // DivisionWhereUniqueInput
-      before?: NexusGenInputs['DivisionWhereUniqueInput'] | null; // DivisionWhereUniqueInput
+    activeSeasons: { // args
+      after?: NexusGenInputs['ConferenceActiveSeasonsWhereUniqueInput'] | null; // ConferenceActiveSeasonsWhereUniqueInput
+      before?: NexusGenInputs['ConferenceActiveSeasonsWhereUniqueInput'] | null; // ConferenceActiveSeasonsWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
     }
-    teams: { // args
-      after?: NexusGenInputs['TeamWhereUniqueInput'] | null; // TeamWhereUniqueInput
-      before?: NexusGenInputs['TeamWhereUniqueInput'] | null; // TeamWhereUniqueInput
+    divisions: { // args
+      after?: NexusGenInputs['DivisionConferenceWhereUniqueInput'] | null; // DivisionConferenceWhereUniqueInput
+      before?: NexusGenInputs['DivisionConferenceWhereUniqueInput'] | null; // DivisionConferenceWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
     }
   }
   Division: {
-    teams: { // args
-      after?: NexusGenInputs['TeamWhereUniqueInput'] | null; // TeamWhereUniqueInput
-      before?: NexusGenInputs['TeamWhereUniqueInput'] | null; // TeamWhereUniqueInput
+    activeSeasons: { // args
+      after?: NexusGenInputs['DivisionActiveSeasonsWhereUniqueInput'] | null; // DivisionActiveSeasonsWhereUniqueInput
+      before?: NexusGenInputs['DivisionActiveSeasonsWhereUniqueInput'] | null; // DivisionActiveSeasonsWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    conferences: { // args
+      after?: NexusGenInputs['DivisionConferenceWhereUniqueInput'] | null; // DivisionConferenceWhereUniqueInput
+      before?: NexusGenInputs['DivisionConferenceWhereUniqueInput'] | null; // DivisionConferenceWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
     }
@@ -1063,11 +1238,35 @@ export interface NexusGenArgTypes {
       first?: number | null; // Int
       last?: number | null; // Int
     }
+    teams: { // args
+      after?: NexusGenInputs['PlayerTeamWhereUniqueInput'] | null; // PlayerTeamWhereUniqueInput
+      before?: NexusGenInputs['PlayerTeamWhereUniqueInput'] | null; // PlayerTeamWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
   }
   Team: {
+    activeSeasons: { // args
+      after?: NexusGenInputs['TeamActiveSeasonsWhereUniqueInput'] | null; // TeamActiveSeasonsWhereUniqueInput
+      before?: NexusGenInputs['TeamActiveSeasonsWhereUniqueInput'] | null; // TeamActiveSeasonsWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
     awayGames: { // args
       after?: NexusGenInputs['GameWhereUniqueInput'] | null; // GameWhereUniqueInput
       before?: NexusGenInputs['GameWhereUniqueInput'] | null; // GameWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    conferences: { // args
+      after?: NexusGenInputs['TeamConferenceWhereUniqueInput'] | null; // TeamConferenceWhereUniqueInput
+      before?: NexusGenInputs['TeamConferenceWhereUniqueInput'] | null; // TeamConferenceWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    divisions: { // args
+      after?: NexusGenInputs['TeamDivisionWhereUniqueInput'] | null; // TeamDivisionWhereUniqueInput
+      before?: NexusGenInputs['TeamDivisionWhereUniqueInput'] | null; // TeamDivisionWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
     }
@@ -1114,8 +1313,8 @@ export interface NexusGenArgTypes {
       last?: number | null; // Int
     }
     players: { // args
-      after?: NexusGenInputs['PlayerWhereUniqueInput'] | null; // PlayerWhereUniqueInput
-      before?: NexusGenInputs['PlayerWhereUniqueInput'] | null; // PlayerWhereUniqueInput
+      after?: NexusGenInputs['PlayerTeamWhereUniqueInput'] | null; // PlayerTeamWhereUniqueInput
+      before?: NexusGenInputs['PlayerTeamWhereUniqueInput'] | null; // PlayerTeamWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
     }
@@ -1127,6 +1326,12 @@ export interface NexusGenArgTypes {
     }
   }
   User: {
+    comments: { // args
+      after?: NexusGenInputs['CommentWhereUniqueInput'] | null; // CommentWhereUniqueInput
+      before?: NexusGenInputs['CommentWhereUniqueInput'] | null; // CommentWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
     favoritePlayers: { // args
       after?: NexusGenInputs['PlayerWhereUniqueInput'] | null; // PlayerWhereUniqueInput
       before?: NexusGenInputs['PlayerWhereUniqueInput'] | null; // PlayerWhereUniqueInput

@@ -10,7 +10,7 @@ export const schema = makeSchema({
     module: path.join(process.cwd(), "graphql", "context.ts"),
     export: "Context",
   },
-  plugins: [nexusPrisma()],
+  plugins: [nexusPrisma({ experimentalCRUD: true })],
   outputs: {
     typegen: path.join(process.cwd(), "generated", "nexus-typegen.ts"),
     schema: path.join(process.cwd(), "generated", "schema.graphql"),

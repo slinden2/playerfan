@@ -1,4 +1,4 @@
-import { extendType, objectType } from "nexus";
+import { objectType } from "nexus";
 
 export const Player = objectType({
   name: "Player",
@@ -24,8 +24,7 @@ export const Player = objectType({
     t.model.rosterStatus();
     t.model.primaryPosition();
     t.model.active();
-    t.model.currentTeam();
-    t.model.teamId();
+    t.model.teams();
     t.model.skaterBoxscores();
     t.model.goalieBoxscores();
     t.model.highlightMetaGoal();
@@ -33,18 +32,5 @@ export const Player = objectType({
     t.model.highlightMetaAssist2();
     t.model.highlightMetaGoalie();
     t.model.favoritedBy();
-  },
-});
-
-export const PlayerQuery = extendType({
-  type: "Query",
-  definition(t) {
-    t.nonNull.list.field("allPlayers", {
-      type: Player,
-      async resolve(_root, _args, ctx) {
-        const players = await ctx.prisma.player.findMany();
-        return players;
-      },
-    });
   },
 });

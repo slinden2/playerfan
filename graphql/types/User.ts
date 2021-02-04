@@ -13,5 +13,6 @@ export const User = objectType({
     t.model.role();
     t.model.favoritePlayers();
     t.model.likedHighlights();
+    t.model.comments();
   },
 });

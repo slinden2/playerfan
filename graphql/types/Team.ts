@@ -4,7 +4,6 @@ export const Team = objectType({
   name: "Team",
   definition(t) {
     t.model.id();
-    t.model.season();
     t.model.teamIdApi();
     t.model.link();
     t.model.siteLink();
@@ -15,12 +14,10 @@ export const Team = objectType({
     t.model.locationName();
     t.model.firstYearOfPlay();
     t.model.officialSiteUrl();
-    t.model.active();
     t.model.twitterHashtag();
-    t.model.conference();
-    t.model.conferenceId();
-    t.model.division();
-    t.model.divisionId();
+    t.model.activeSeasons();
+    t.model.conferences();
+    t.model.divisions();
     t.model.players();
     t.model.awayGames();
     t.model.homeGames();

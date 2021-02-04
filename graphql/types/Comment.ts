@@ -8,5 +8,7 @@ export const Comment = objectType({
     t.model.content();
     t.model.highlight();
     t.model.highlightId();
+    t.model.author();
+    t.model.authorId();
   },
 });
