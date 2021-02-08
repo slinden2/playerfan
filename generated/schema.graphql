@@ -394,6 +394,13 @@ enum Position {
 
 type Query {
   allDivisions: [Division]!
+  bestPlayers(
+    """Number of games considered"""
+    numOfGames: Int! = 1
+
+    """Primary sort column"""
+    sortBy: String! = "points"
+  ): [SkaterBoxscore]!
 }
 
 enum Role {

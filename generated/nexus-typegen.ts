@@ -680,6 +680,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     allDivisions: Array<NexusGenRootTypes['Division'] | null>; // [Division]!
+    bestPlayers: Array<NexusGenRootTypes['SkaterBoxscore'] | null>; // [SkaterBoxscore]!
   }
   SkaterBoxscore: { // field return type
     assists: number; // Int!
@@ -1017,6 +1018,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     allDivisions: 'Division'
+    bestPlayers: 'SkaterBoxscore'
   }
   SkaterBoxscore: { // field return type name
     assists: 'Int'
@@ -1243,6 +1245,12 @@ export interface NexusGenArgTypes {
       before?: NexusGenInputs['PlayerTeamWhereUniqueInput'] | null; // PlayerTeamWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
+    }
+  }
+  Query: {
+    bestPlayers: { // args
+      numOfGames: number; // Int!
+      sortBy: string; // String!
     }
   }
   Team: {
