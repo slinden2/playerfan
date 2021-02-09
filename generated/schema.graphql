@@ -4,46 +4,33 @@
 
 type Comment {
   author: User!
-  authorId: String!
   content: String!
   createdAt: DateTime!
   highlight: Highlight!
-  highlightId: String!
   id: String!
-}
-
-input CommentWhereUniqueInput {
-  id: String
 }
 
 type Conference {
   abbreviation: String!
-  activeSeasons(after: ConferenceActiveSeasonsWhereUniqueInput, before: ConferenceActiveSeasonsWhereUniqueInput, first: Int, last: Int): [ConferenceActiveSeasons!]!
+  activeSeasons: [ConferenceActiveSeasons!]!
   conferenceIdApi: Int!
-  divisions(after: DivisionConferenceWhereUniqueInput, before: DivisionConferenceWhereUniqueInput, first: Int, last: Int): [DivisionConference!]!
+  divisions: [DivisionConference!]!
   id: String!
   link: String!
   name: String!
   shortName: String!
+  teams: [TeamConference!]!
 }
 
 type ConferenceActiveSeasons {
   conference: Conference!
-  conferenceId: String!
   id: String!
   season: String!
 }
 
-input ConferenceActiveSeasonsSeasonConferenceIdCompoundUniqueInput {
-  conferenceId: String!
-  season: String!
-}
-
-input ConferenceActiveSeasonsWhereUniqueInput {
-  id: String
-  season_conferenceId: ConferenceActiveSeasonsSeasonConferenceIdCompoundUniqueInput
-}
-
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
 scalar DateTime
 
 enum Decision {
@@ -53,75 +40,50 @@ enum Decision {
 
 type Division {
   abbreviation: String!
-  activeSeasons(after: DivisionActiveSeasonsWhereUniqueInput, before: DivisionActiveSeasonsWhereUniqueInput, first: Int, last: Int): [DivisionActiveSeasons!]!
-  conferences(after: DivisionConferenceWhereUniqueInput, before: DivisionConferenceWhereUniqueInput, first: Int, last: Int): [DivisionConference!]!
+  activeSeasons: [DivisionActiveSeasons!]!
+  conferences: [DivisionConference!]!
   divisionIdApi: Int!
   id: String!
   link: String!
   name: String!
   shortName: String!
+  teams: [TeamDivision!]!
 }
 
 type DivisionActiveSeasons {
   division: Division!
-  divisionId: String!
   id: String!
   season: String!
-}
-
-input DivisionActiveSeasonsSeasonDivisionIdCompoundUniqueInput {
-  divisionId: String!
-  season: String!
-}
-
-input DivisionActiveSeasonsWhereUniqueInput {
-  id: String
-  season_divisionId: DivisionActiveSeasonsSeasonDivisionIdCompoundUniqueInput
 }
 
 type DivisionConference {
   conference: Conference!
-  conferenceId: String!
   division: Division!
-  divisionId: String!
   id: String!
   season: String!
-}
-
-input DivisionConferenceSeasonConferenceIdDivisionIdCompoundUniqueInput {
-  conferenceId: String!
-  divisionId: String!
-  season: String!
-}
-
-input DivisionConferenceWhereUniqueInput {
-  id: String
-  season_conferenceId_divisionId: DivisionConferenceSeasonConferenceIdDivisionIdCompoundUniqueInput
 }
 
 type Game {
   apiDate: DateTime!
   awayScore: Int!
   awayTeam: Team!
-  awayTeamId: String!
   boxscoresFetched: Boolean!
   contentLink: String!
   gameDate: DateTime!
   gamePk: Int!
   gameType: GameType!
-  goalieBoxscores(after: GoalieBoxscoreWhereUniqueInput, before: GoalieBoxscoreWhereUniqueInput, first: Int, last: Int): [GoalieBoxscore!]!
-  highlight(after: HighlightWhereUniqueInput, before: HighlightWhereUniqueInput, first: Int, last: Int): [Highlight!]!
+  goalieBoxscores: [GoalieBoxscore]!
   highlightMetaFetched: Boolean!
+  highlights: [Highlight]!
   highlightsFetched: Boolean!
   homeScore: Int!
   homeTeam: Team!
-  homeTeamId: String!
   id: String!
-  linescores(after: LinescoreWhereUniqueInput, before: LinescoreWhereUniqueInput, first: Int, last: Int): [Linescore!]!
+  linescores: [Linescore]!
   linescoresFetched: Boolean!
   liveLink: String!
   playbacksFetched: Boolean!
-  skaterBoxscores(after: SkaterBoxscoreWhereUniqueInput, before: SkaterBoxscoreWhereUniqueInput, first: Int, last: Int): [SkaterBoxscore!]!
+  skaterBoxscores: [SkaterBoxscore]!
   statusCode: Int!
 }
 
@@ -130,26 +92,17 @@ enum GameType {
   R
 }
 
-input GameWhereUniqueInput {
-  contentLink: String
-  gamePk: Int
-  id: String
-  liveLink: String
-}
-
 type GoalieBoxscore {
   assists: Int!
   decision: Decision
   evenSavePct: Float
   evenSaves: Int!
   game: Game!
-  gameId: String!
   gamePk: Int!
   goals: Int!
   id: String!
   penaltyMinutes: Int!
   player: Player!
-  playerId: String!
   powerPlaySavePct: Float
   powerPlaySaves: Int!
   powerPlayShotsAgainst: Int!
@@ -160,38 +113,24 @@ type GoalieBoxscore {
   shortHandedShotsAgainst: Int!
   shotsAgainst: Int!
   team: Team!
-  teamId: String!
   timeOnIce: Int!
-}
-
-input GoalieBoxscoreGameIdPlayerIdCompoundUniqueInput {
-  gameId: String!
-  playerId: String!
-}
-
-input GoalieBoxscoreWhereUniqueInput {
-  gameId_playerId: GoalieBoxscoreGameIdPlayerIdCompoundUniqueInput
-  id: String
 }
 
 type Highlight {
   blurb: String!
-  comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
+  comments: [Comment]!
   description: String!
   duration: Int!
   eventIdApi: Int
   game: Game!
-  gameId: String!
   gamePk: Int!
   highlightMeta: HighlightMeta
   id: String!
-  likedBy(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
+  likedBy: [User]!
   mediaPlaybackIdApi: Int!
   opponent: Team
-  opponentId: String
-  playbacks(after: PlaybackWhereUniqueInput, before: PlaybackWhereUniqueInput, first: Int, last: Int): [Playback!]!
+  playbacks: [Playback]!
   team: Team
-  teamId: String
   title: String!
   type: HighlightType!
   videoIdApi: Int!
@@ -199,9 +138,7 @@ type Highlight {
 
 type HighlightMeta {
   assist1: Player
-  assist1Id: String
   assist2: Player
-  assist2Id: String
   coordX: Int!
   coordY: Int!
   dateTime: DateTime!
@@ -211,30 +148,16 @@ type HighlightMeta {
   gamePk: Int!
   gameWinningGoal: Boolean!
   goalie: Player
-  goalieId: String
   hasVideo: Boolean!
   highlight: Highlight
-  highlightId: String
   id: String!
   periodNumber: Int!
   periodTime: Int!
   periodType: PeriodType!
   scorer: Player!
-  scorerId: String!
   shotType: String!
   team: Team!
-  teamId: String!
   type: VideoDataType!
-}
-
-input HighlightMetaGamePkEventIdApiCompoundUniqueInput {
-  eventIdApi: Int!
-  gamePk: Int!
-}
-
-input HighlightMetaWhereUniqueInput {
-  gamePk_eventIdApi: HighlightMetaGamePkEventIdApiCompoundUniqueInput
-  id: String
 }
 
 enum HighlightType {
@@ -243,17 +166,11 @@ enum HighlightType {
   RECAP
 }
 
-input HighlightWhereUniqueInput {
-  id: String
-  videoIdApi: Int
-}
-
 type Linescore {
   blocked: Int!
   faceOffWins: Int!
   faceOffsTaken: Int!
   game: Game!
-  gameId: String!
   gamePk: Int!
   giveaways: Int!
   goalsAgainst: Int!
@@ -264,7 +181,6 @@ type Linescore {
   isHomeGame: Boolean!
   loss: Boolean!
   opponent: Team!
-  opponentId: String!
   ot: Boolean!
   otWin: Boolean!
   penaltyMinutes: Int!
@@ -278,18 +194,7 @@ type Linescore {
   shotsFor: Int!
   takeaways: Int!
   team: Team!
-  teamId: String!
   win: Boolean!
-}
-
-input LinescoreGamePkTeamIdCompoundUniqueInput {
-  gamePk: Int!
-  teamId: String!
-}
-
-input LinescoreWhereUniqueInput {
-  gamePk_teamId: LinescoreGamePkTeamIdCompoundUniqueInput
-  id: String
 }
 
 enum PeriodType {
@@ -300,9 +205,7 @@ enum PeriodType {
 
 type Playback {
   highlight: Highlight!
-  highlightId: String!
   id: String!
-  playbackTypeId: String!
   type: PlaybackType!
   url: String!
 }
@@ -311,18 +214,8 @@ type PlaybackType {
   height: Int
   id: String!
   name: String!
-  playbacks(after: PlaybackWhereUniqueInput, before: PlaybackWhereUniqueInput, first: Int, last: Int): [Playback!]!
+  playbacks: [Playback]!
   width: Int
-}
-
-input PlaybackUrlPlaybackTypeIdCompoundUniqueInput {
-  playbackTypeId: String!
-  url: String!
-}
-
-input PlaybackWhereUniqueInput {
-  id: String
-  url_playbackTypeId: PlaybackUrlPlaybackTypeIdCompoundUniqueInput
 }
 
 type Player {
@@ -333,14 +226,14 @@ type Player {
   birthDate: DateTime!
   birthStateProvince: String
   captain: Boolean!
-  favoritedBy(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
+  favoritedBy: [User]!
   firstName: String!
-  goalieBoxscores(after: GoalieBoxscoreWhereUniqueInput, before: GoalieBoxscoreWhereUniqueInput, first: Int, last: Int): [GoalieBoxscore!]!
+  goalieBoxscores: [GoalieBoxscore]!
   height: Int!
-  highlightMetaAssist1(after: HighlightMetaWhereUniqueInput, before: HighlightMetaWhereUniqueInput, first: Int, last: Int): [HighlightMeta!]!
-  highlightMetaAssist2(after: HighlightMetaWhereUniqueInput, before: HighlightMetaWhereUniqueInput, first: Int, last: Int): [HighlightMeta!]!
-  highlightMetaGoal(after: HighlightMetaWhereUniqueInput, before: HighlightMetaWhereUniqueInput, first: Int, last: Int): [HighlightMeta!]!
-  highlightMetaGoalie(after: HighlightMetaWhereUniqueInput, before: HighlightMetaWhereUniqueInput, first: Int, last: Int): [HighlightMeta!]!
+  highlightMetaAssist1: [HighlightMeta]!
+  highlightMetaAssist2: [HighlightMeta]!
+  highlightMetaGoal: [HighlightMeta]!
+  highlightMetaGoalie: [HighlightMeta]!
   id: String!
   lastName: String!
   link: String!
@@ -352,8 +245,8 @@ type Player {
   rosterStatus: RosterStatus!
   shootsCatches: ShootsCatches!
   siteLink: String!
-  skaterBoxscores(after: SkaterBoxscoreWhereUniqueInput, before: SkaterBoxscoreWhereUniqueInput, first: Int, last: Int): [SkaterBoxscore!]!
-  teams(after: PlayerTeamWhereUniqueInput, before: PlayerTeamWhereUniqueInput, first: Int, last: Int): [PlayerTeam!]!
+  skaterBoxscores: [SkaterBoxscore]!
+  teams: [PlayerTeam!]!
   weight: Int!
 }
 
@@ -361,26 +254,8 @@ type PlayerTeam {
   endDate: DateTime
   id: String!
   player: Player!
-  playerId: String!
   startDate: DateTime!
-  team: Team
-  teamId: String
-}
-
-input PlayerTeamStartDateTeamIdPlayerIdCompoundUniqueInput {
-  playerId: String!
-  startDate: DateTime!
-  teamId: String!
-}
-
-input PlayerTeamWhereUniqueInput {
-  id: String
-  startDate_teamId_playerId: PlayerTeamStartDateTeamIdPlayerIdCompoundUniqueInput
-}
-
-input PlayerWhereUniqueInput {
-  id: String
-  playerIdApi: Int
+  team: Team!
 }
 
 enum Position {
@@ -394,6 +269,7 @@ enum Position {
 
 type Query {
   allDivisions: [Division]!
+  allUsers: [User]!
   bestPlayers(
     """Number of games considered"""
     numOfGames: Int! = 1
@@ -427,7 +303,6 @@ type SkaterBoxscore {
   faceOffWins: Int!
   faceOffsTaken: Int!
   game: Game!
-  gameId: String!
   gamePk: Int!
   giveaways: Int!
   goals: Int!
@@ -435,7 +310,6 @@ type SkaterBoxscore {
   id: String!
   penaltyMinutes: Int!
   player: Player!
-  playerId: String!
   plusMinus: Int!
   points: Int!
   powerPlayAssists: Int!
@@ -447,43 +321,32 @@ type SkaterBoxscore {
   shots: Int!
   takeaways: Int!
   team: Team!
-  teamId: String!
   timeOnIce: Int!
-}
-
-input SkaterBoxscoreGameIdPlayerIdCompoundUniqueInput {
-  gameId: String!
-  playerId: String!
-}
-
-input SkaterBoxscoreWhereUniqueInput {
-  gameId_playerId: SkaterBoxscoreGameIdPlayerIdCompoundUniqueInput
-  id: String
 }
 
 type Team {
   abbreviation: String!
-  activeSeasons(after: TeamActiveSeasonsWhereUniqueInput, before: TeamActiveSeasonsWhereUniqueInput, first: Int, last: Int): [TeamActiveSeasons!]!
-  awayGames(after: GameWhereUniqueInput, before: GameWhereUniqueInput, first: Int, last: Int): [Game!]!
-  conferences(after: TeamConferenceWhereUniqueInput, before: TeamConferenceWhereUniqueInput, first: Int, last: Int): [TeamConference!]!
-  divisions(after: TeamDivisionWhereUniqueInput, before: TeamDivisionWhereUniqueInput, first: Int, last: Int): [TeamDivision!]!
+  activeSeasons: [TeamActiveSeasons]!
+  awayGames: [Game!]!
+  conferences: [TeamConference!]!
+  divisions: [TeamDivision!]!
   firstYearOfPlay: Int!
-  goalieBoxscores(after: GoalieBoxscoreWhereUniqueInput, before: GoalieBoxscoreWhereUniqueInput, first: Int, last: Int): [GoalieBoxscore!]!
-  highlightMeta(after: HighlightMetaWhereUniqueInput, before: HighlightMetaWhereUniqueInput, first: Int, last: Int): [HighlightMeta!]!
-  highlights(after: HighlightWhereUniqueInput, before: HighlightWhereUniqueInput, first: Int, last: Int): [Highlight!]!
-  highlightsAgainst(after: HighlightWhereUniqueInput, before: HighlightWhereUniqueInput, first: Int, last: Int): [Highlight!]!
-  homeGames(after: GameWhereUniqueInput, before: GameWhereUniqueInput, first: Int, last: Int): [Game!]!
+  goalieBoxscores: [GoalieBoxscore]!
+  highlightMeta: [HighlightMeta]!
+  highlights: [Highlight]!
+  highlightsAgainst: [Highlight]!
+  homeGames: [Game!]!
   id: String!
-  linescores(after: LinescoreWhereUniqueInput, before: LinescoreWhereUniqueInput, first: Int, last: Int): [Linescore!]!
+  linescores: [Linescore]!
   link: String!
   locationName: String!
   name: String!
   officialSiteUrl: String!
-  opponentLinescores(after: LinescoreWhereUniqueInput, before: LinescoreWhereUniqueInput, first: Int, last: Int): [Linescore!]!
-  players(after: PlayerTeamWhereUniqueInput, before: PlayerTeamWhereUniqueInput, first: Int, last: Int): [PlayerTeam!]!
+  opponentLinescores: [Linescore]!
+  players: [PlayerTeam!]!
   shortName: String!
   siteLink: String!
-  skaterBoxscores(after: SkaterBoxscoreWhereUniqueInput, before: SkaterBoxscoreWhereUniqueInput, first: Int, last: Int): [SkaterBoxscore!]!
+  skaterBoxscores: [SkaterBoxscore]!
   teamIdApi: Int!
   teamName: String!
   twitterHashtag: String!
@@ -493,78 +356,34 @@ type TeamActiveSeasons {
   id: String!
   season: String!
   team: Team!
-  teamId: String!
-}
-
-input TeamActiveSeasonsSeasonTeamIdCompoundUniqueInput {
-  season: String!
-  teamId: String!
-}
-
-input TeamActiveSeasonsWhereUniqueInput {
-  id: String
-  season_teamId: TeamActiveSeasonsSeasonTeamIdCompoundUniqueInput
 }
 
 type TeamConference {
   conference: Conference!
-  conferenceId: String!
   id: String!
   season: String!
   team: Team!
-  teamId: String!
-}
-
-input TeamConferenceSeasonConferenceIdTeamIdCompoundUniqueInput {
-  conferenceId: String!
-  season: String!
-  teamId: String!
-}
-
-input TeamConferenceWhereUniqueInput {
-  id: String
-  season_conferenceId_teamId: TeamConferenceSeasonConferenceIdTeamIdCompoundUniqueInput
 }
 
 type TeamDivision {
   division: Division!
-  divisionId: String!
   id: String!
   season: String!
   team: Team!
-  teamId: String!
-}
-
-input TeamDivisionSeasonDivisionIdTeamIdCompoundUniqueInput {
-  divisionId: String!
-  season: String!
-  teamId: String!
-}
-
-input TeamDivisionWhereUniqueInput {
-  id: String
-  season_divisionId_teamId: TeamDivisionSeasonDivisionIdTeamIdCompoundUniqueInput
 }
 
 type User {
-  comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
+  comments: [Comment]!
   createdAt: DateTime!
   email: String!
-  favoritePlayers(after: PlayerWhereUniqueInput, before: PlayerWhereUniqueInput, first: Int, last: Int): [Player!]!
+  favoritePlayers: [Player]!
   id: String!
   isVerified: Boolean!
-  likedHighlights(after: HighlightWhereUniqueInput, before: HighlightWhereUniqueInput, first: Int, last: Int): [Highlight!]!
+  likedHighlights: [Highlight]!
   role: Role!
   updatedAt: DateTime!
   username: String!
   usernameLower: String!
-}
-
-input UserWhereUniqueInput {
-  email: String
-  id: String
-  username: String
-  usernameLower: String
 }
 
 enum VideoDataType {

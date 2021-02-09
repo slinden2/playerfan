@@ -192,7 +192,7 @@ model Player {
   highlightMetaAssist1 HighlightMeta[]  @relation("PlayerHighlightMetaAssist1")
   highlightMetaAssist2 HighlightMeta[]  @relation("PlayerHighlightMetaAssist2")
   highlightMetaGoalie  HighlightMeta[]  @relation("PlayerHighlightMetaGoalie")
-  favoritedBy          User[]           @relation("UserFavoritePlayers", references: [id])
+  favoritedBy          User[]           @relation("UserFavoritePlayers")
 }
 
 model PlayerTeam {
@@ -235,7 +235,7 @@ model Game {
   linescores           Linescore[]      @relation("GameLinescore")
   skaterBoxscores      SkaterBoxscore[] @relation("GameSkaterBoxscores")
   goalieBoxscores      GoalieBoxscore[] @relation("GameGoalieBoxscores")
-  highlight            Highlight[]      @relation("GameHighlight")
+  highlights           Highlight[]      @relation("GameHighlight")
 }
 
 model Linescore {
