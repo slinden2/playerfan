@@ -21,3 +21,5 @@ export * from "./HighlightMeta";
 export * from "./Comment";
 export * from "./PlaybackType";
 export * from "./Playback";
+export * from "./PlayerCardMeta";
+export * from "./BestSkater";

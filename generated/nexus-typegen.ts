@@ -53,6 +53,32 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  BestSkater: { // root type
+    assists: number; // Int!
+    blocked: number; // Int!
+    faceOffWins: number; // Int!
+    faceOffsTaken: number; // Int!
+    firstName: string; // String!
+    giveaways: number; // Int!
+    goals: number; // Int!
+    hits: number; // Int!
+    id: string; // ID!
+    lastName: string; // String!
+    penaltyMinutes: number; // Int!
+    playerSiteLink: string; // String!
+    plusMinus: number; // Int!
+    points: number; // Int!
+    powerPlayAssists: number; // Int!
+    powerPlayGoals: number; // Int!
+    primaryPosition: string; // String!
+    shortHandedAssists: number; // Int!
+    shortHandedGoals: number; // Int!
+    shots: number; // Int!
+    takeaways: number; // Int!
+    teamAbbreviation: string; // String!
+    teamSiteLink: string; // String!
+    timeOnIcePerGame: number; // Int!
+  }
   Comment: { // root type
     content: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -281,16 +307,43 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
+  PlayerCardMeta: NexusGenRootTypes['BestSkater'];
 }
 
 export interface NexusGenUnions {
 }
 
-export type NexusGenRootTypes = NexusGenObjects
+export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  BestSkater: { // field return type
+    assists: number; // Int!
+    blocked: number; // Int!
+    faceOffWins: number; // Int!
+    faceOffsTaken: number; // Int!
+    firstName: string; // String!
+    giveaways: number; // Int!
+    goals: number; // Int!
+    hits: number; // Int!
+    id: string; // ID!
+    lastName: string; // String!
+    penaltyMinutes: number; // Int!
+    playerSiteLink: string; // String!
+    plusMinus: number; // Int!
+    points: number; // Int!
+    powerPlayAssists: number; // Int!
+    powerPlayGoals: number; // Int!
+    primaryPosition: string; // String!
+    shortHandedAssists: number; // Int!
+    shortHandedGoals: number; // Int!
+    shots: number; // Int!
+    takeaways: number; // Int!
+    teamAbbreviation: string; // String!
+    teamSiteLink: string; // String!
+    timeOnIcePerGame: number; // Int!
+  }
   Comment: { // field return type
     author: NexusGenRootTypes['User']; // User!
     content: string; // String!
@@ -507,8 +560,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     allDivisions: Array<NexusGenRootTypes['Division'] | null>; // [Division]!
-    allUsers: Array<NexusGenRootTypes['User'] | null>; // [User]!
-    bestPlayers: Array<NexusGenRootTypes['SkaterBoxscore'] | null>; // [SkaterBoxscore]!
+    bestSkaters: NexusGenRootTypes['BestSkater'][]; // [BestSkater!]!
   }
   SkaterBoxscore: { // field return type
     assists: number; // Int!
@@ -594,9 +646,44 @@ export interface NexusGenFieldTypes {
     username: string; // String!
     usernameLower: string; // String!
   }
+  PlayerCardMeta: { // field return type
+    firstName: string; // String!
+    id: string; // ID!
+    lastName: string; // String!
+    playerSiteLink: string; // String!
+    primaryPosition: string; // String!
+    teamAbbreviation: string; // String!
+    teamSiteLink: string; // String!
+  }
 }
 
 export interface NexusGenFieldTypeNames {
+  BestSkater: { // field return type name
+    assists: 'Int'
+    blocked: 'Int'
+    faceOffWins: 'Int'
+    faceOffsTaken: 'Int'
+    firstName: 'String'
+    giveaways: 'Int'
+    goals: 'Int'
+    hits: 'Int'
+    id: 'ID'
+    lastName: 'String'
+    penaltyMinutes: 'Int'
+    playerSiteLink: 'String'
+    plusMinus: 'Int'
+    points: 'Int'
+    powerPlayAssists: 'Int'
+    powerPlayGoals: 'Int'
+    primaryPosition: 'String'
+    shortHandedAssists: 'Int'
+    shortHandedGoals: 'Int'
+    shots: 'Int'
+    takeaways: 'Int'
+    teamAbbreviation: 'String'
+    teamSiteLink: 'String'
+    timeOnIcePerGame: 'Int'
+  }
   Comment: { // field return type name
     author: 'User'
     content: 'String'
@@ -813,8 +900,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     allDivisions: 'Division'
-    allUsers: 'User'
-    bestPlayers: 'SkaterBoxscore'
+    bestSkaters: 'BestSkater'
   }
   SkaterBoxscore: { // field return type name
     assists: 'Int'
@@ -900,11 +986,20 @@ export interface NexusGenFieldTypeNames {
     username: 'String'
     usernameLower: 'String'
   }
+  PlayerCardMeta: { // field return type name
+    firstName: 'String'
+    id: 'ID'
+    lastName: 'String'
+    playerSiteLink: 'String'
+    primaryPosition: 'String'
+    teamAbbreviation: 'String'
+    teamSiteLink: 'String'
+  }
 }
 
 export interface NexusGenArgTypes {
   Query: {
-    bestPlayers: { // args
+    bestSkaters: { // args
       numOfGames: number; // Int!
       sortBy: string; // String!
     }
@@ -912,9 +1007,11 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
+  PlayerCardMeta: "BestSkater"
 }
 
 export interface NexusGenTypeInterfaces {
+  BestSkater: "PlayerCardMeta"
 }
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
@@ -923,20 +1020,20 @@ export type NexusGenInputNames = never;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 
-export type NexusGenInterfaceNames = never;
+export type NexusGenInterfaceNames = keyof NexusGenInterfaces;
 
 export type NexusGenScalarNames = keyof NexusGenScalars;
 
 export type NexusGenUnionNames = never;
 
-export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
+export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = "BestSkater";
 
 export type NexusGenAbstractsUsingStrategyResolveType = never;
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {
-    isTypeOf: false
-    resolveType: true
+    resolveType: false
+    isTypeOf: true
     __typename: false
   }
 }

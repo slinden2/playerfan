@@ -21,4 +21,11 @@ export const schema = makeSchema({
       },
     ],
   },
+  features: {
+    abstractTypeStrategies: {
+      resolveType: false,
+      isTypeOf: true,
+      __typename: false,
+    },
+  },
 });
