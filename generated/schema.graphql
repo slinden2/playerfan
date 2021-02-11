@@ -2,6 +2,74 @@
 ### Do not make changes to this file directly
 
 
+"""Card meta data such as player name, team etc"""
+interface BestPlayer {
+  assists: Int!
+
+  """First name of the player"""
+  firstName: String!
+  goals: Int!
+
+  """CUID of the resource"""
+  id: ID!
+
+  """Last name of the player"""
+  lastName: String!
+
+  """Link to player profile"""
+  playerSiteLink: String!
+
+  """Player position"""
+  primaryPosition: String!
+
+  """Abbreviated three-letter team id"""
+  teamAbbreviation: String!
+
+  """Link to team profile"""
+  teamSiteLink: String!
+}
+
+type BestSkater implements BestPlayer {
+  assists: Int!
+  blocked: Int!
+  faceOffWins: Int!
+  faceOffsTaken: Int!
+
+  """First name of the player"""
+  firstName: String!
+  giveaways: Int!
+  goals: Int!
+  hits: Int!
+
+  """CUID of the resource"""
+  id: ID!
+
+  """Last name of the player"""
+  lastName: String!
+  penaltyMinutes: Int!
+
+  """Link to player profile"""
+  playerSiteLink: String!
+  plusMinus: Int!
+  points: Int!
+  powerPlayAssists: Int!
+  powerPlayGoals: Int!
+
+  """Player position"""
+  primaryPosition: String!
+  shortHandedAssists: Int!
+  shortHandedGoals: Int!
+  shots: Int!
+  takeaways: Int!
+
+  """Abbreviated three-letter team id"""
+  teamAbbreviation: String!
+
+  """Link to team profile"""
+  teamSiteLink: String!
+  timeOnIcePerGame: Int!
+}
+
 type Comment {
   author: User!
   content: String!
@@ -250,6 +318,17 @@ type Player {
   weight: Int!
 }
 
+input PlayerCardInput {
+  """Number of games considered in stat accumulation"""
+  numOfGames: Int! = 1
+
+  """Primary sort column"""
+  sortBy: StatSortFields!
+
+  """Total number of cards queried"""
+  take: Int! = 50
+}
+
 type PlayerTeam {
   endDate: DateTime
   id: String!
@@ -269,14 +348,7 @@ enum Position {
 
 type Query {
   allDivisions: [Division]!
-  allUsers: [User]!
-  bestPlayers(
-    """Number of games considered"""
-    numOfGames: Int! = 1
-
-    """Primary sort column"""
-    sortBy: String! = "points"
-  ): [SkaterBoxscore]!
+  bestSkaters(input: PlayerCardInput!): [BestSkater!]!
 }
 
 enum Role {
@@ -322,6 +394,40 @@ type SkaterBoxscore {
   takeaways: Int!
   team: Team!
   timeOnIce: Int!
+}
+
+enum StatSortFields {
+  ASSISTS
+  BLOCKED
+  EVEN_SAVEPCT
+  EVEN_SAVES
+  EVEN_TON
+  FO_TAKEN
+  FO_WINS
+  GIVEAWAYS
+  GOALS
+  HITS
+  PLUSMINUS
+  PM
+  POINTS
+  PP_ASSISTS
+  PP_GOALS
+  PP_SAVEPCT
+  PP_SAVES
+  PP_SH
+  PP_TON
+  SAVEPCT
+  SAVES
+  SHOTS
+  SHOTSAGAINST
+  SH_ASSISTS
+  SH_GOALS
+  SH_SAVEPCT
+  SH_SAVES
+  SH_SH
+  SH_TON
+  TAKEAWAYS
+  TON
 }
 
 type Team {

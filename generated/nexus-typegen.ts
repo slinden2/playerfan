@@ -29,6 +29,11 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  PlayerCardInput: { // input type
+    numOfGames: number; // Int!
+    sortBy: NexusGenEnums['StatSortFields']; // StatSortFields!
+    take: number; // Int!
+  }
 }
 
 export interface NexusGenEnums {
@@ -40,6 +45,7 @@ export interface NexusGenEnums {
   Role: "ADMIN" | "MODERATOR" | "USER"
   RosterStatus: "I" | "N" | "Y"
   ShootsCatches: "L" | "R"
+  StatSortFields: "assists" | "blocked" | "evenSavePct" | "evenSaves" | "evenTimeOnIce" | "faceOffsTaken" | "faceOffWins" | "giveaways" | "goals" | "hits" | "plusMinus" | "penaltyMinutes" | "points" | "powerPlayAssists" | "powerPlayGoals" | "powerPlaySavePct" | "powerPlaySaves" | "powerPlayShotsAgainst" | "powerPlayTimeOnIce" | "savePct" | "saves" | "shots" | "shotsAgainst" | "shortHandedAssists" | "shortHandedGoals" | "shortHandedSavePct" | "shortHandedSaves" | "shortHandedShotsAgainst" | "shortHandedTimeOnIce" | "takeaways" | "timeOnIce"
   VideoDataType: "GOAL" | "SHOT"
 }
 
@@ -307,7 +313,7 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
-  PlayerCardMeta: NexusGenRootTypes['BestSkater'];
+  BestPlayer: NexusGenRootTypes['BestSkater'];
 }
 
 export interface NexusGenUnions {
@@ -646,8 +652,10 @@ export interface NexusGenFieldTypes {
     username: string; // String!
     usernameLower: string; // String!
   }
-  PlayerCardMeta: { // field return type
+  BestPlayer: { // field return type
+    assists: number; // Int!
     firstName: string; // String!
+    goals: number; // Int!
     id: string; // ID!
     lastName: string; // String!
     playerSiteLink: string; // String!
@@ -986,8 +994,10 @@ export interface NexusGenFieldTypeNames {
     username: 'String'
     usernameLower: 'String'
   }
-  PlayerCardMeta: { // field return type name
+  BestPlayer: { // field return type name
+    assists: 'Int'
     firstName: 'String'
+    goals: 'Int'
     id: 'ID'
     lastName: 'String'
     playerSiteLink: 'String'
@@ -1000,23 +1010,22 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Query: {
     bestSkaters: { // args
-      numOfGames: number; // Int!
-      sortBy: string; // String!
+      input: NexusGenInputs['PlayerCardInput']; // PlayerCardInput!
     }
   }
 }
 
 export interface NexusGenAbstractTypeMembers {
-  PlayerCardMeta: "BestSkater"
+  BestPlayer: "BestSkater"
 }
 
 export interface NexusGenTypeInterfaces {
-  BestSkater: "PlayerCardMeta"
+  BestSkater: "BestPlayer"
 }
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 

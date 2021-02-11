@@ -1,5 +1,7 @@
-import { extendType, intArg, nonNull, objectType, stringArg } from "nexus";
-import { NexusGenObjects } from "../../generated/nexus-typegen";
+import { arg, extendType, nonNull, objectType } from "nexus";
+import { PlayerCardInput } from "./BestPlayer";
+import { NexusGenObjects } from "../../../generated/nexus-typegen";
+import { playerMetaQueryFields } from "./queryStrings";
 
 export const BestSkater = objectType({
   name: "BestSkater",
@@ -7,7 +9,7 @@ export const BestSkater = objectType({
     return true;
   },
   definition(t) {
-    t.implements("PlayerCardMeta");
+    t.implements("BestPlayer");
     t.nonNull.int("points");
     t.nonNull.int("goals");
     t.nonNull.int("assists");
@@ -34,25 +36,14 @@ export const BestSkaterQuery = extendType({
     t.nonNull.list.nonNull.field("bestSkaters", {
       type: "BestSkater",
       args: {
-        numOfGames: nonNull(
-          intArg({ default: 1, description: "Number of games considered" })
-        ),
-        sortBy: nonNull(
-          stringArg({ default: "points", description: "Primary sort column" })
-        ),
+        input: arg({ type: nonNull(PlayerCardInput) }),
       },
       async resolve(_, args, ctx) {
         const result = await ctx.prisma.$queryRaw<
           NexusGenObjects["BestSkater"][]
         >(`
           SELECT
-            "Player"."id",
-            "Player"."firstName",
-            "Player"."lastName",
-            "Player"."siteLink" AS "playerSiteLink",
-            "Player"."primaryPosition",
-            "Team"."abbreviation" AS "teamAbbreviation",
-            "Team"."siteLink" AS "teamSiteLink",
+            ${playerMetaQueryFields},
             "PlayerStats"."points",
             "PlayerStats"."goals",
             "PlayerStats"."assists",
@@ -133,7 +124,7 @@ export const BestSkaterQuery = extendType({
                   "Player"."id" = "Stats"."playerId"
                 )
               WHERE
-                "Stats"."seqnum" <= ${args.numOfGames}
+                "Stats"."seqnum" <= ${args.input.numOfGames}
               GROUP BY
                 "Player"."id"
             ) AS "PlayerStats"
@@ -143,9 +134,10 @@ export const BestSkaterQuery = extendType({
           WHERE
             "PlayerTeam"."endDate" IS NULL
           ORDER BY
+            "PlayerStats"."${args.input.sortBy}" DESC,
             "PlayerStats"."points" DESC,
             "PlayerStats"."goals" DESC
-          LIMIT 50`);
+          LIMIT ${args.input.take}`);
         return result;
       },
     });
