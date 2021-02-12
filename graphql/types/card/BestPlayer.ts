@@ -3,6 +3,7 @@ import { enumType, inputObjectType, interfaceType } from "nexus";
 export const StatSortFields = enumType({
   name: "StatSortFields",
   members: {
+    // Skater / common
     ASSISTS: "assists",
     GOALS: "goals",
     POINTS: "points",
@@ -23,6 +24,7 @@ export const StatSortFields = enumType({
     EVEN_TON: "evenTimeOnIce",
     PP_TON: "powerPlayTimeOnIce",
     SH_TON: "shortHandedTimeOnIce",
+    // Goalie
     SAVES: "saves",
     PP_SAVES: "powerPlaySaves",
     SH_SAVES: "shortHandedSaves",
@@ -34,6 +36,18 @@ export const StatSortFields = enumType({
     PP_SAVEPCT: "powerPlaySavePct",
     SH_SAVEPCT: "shortHandedSavePct",
     EVEN_SAVEPCT: "evenSavePct",
+    WINS: "wins",
+    LOSSES: "losses",
+    SHUTOUTS: "shutouts",
+    SAVE_PCT: "savePct",
+    GAA: "goalsAgainstAverage",
+    PP_SAVE_PCT: "powerPlaySavePct",
+    SH_SAVE_PCT: "shortHandedSavePct",
+    PP_SHOTS_AGAINST: "powerPlayShotsAgainst",
+    SH_SHOTS_AGAINST: "shortHandedShotsAgainst",
+    SAVES_PER_GAME: "savesPerGame",
+    SHOTS_AGAINST_PER_GAME: "shotsAgainstPerGame",
+    WIN_PCT: "winPct",
   },
 });
 

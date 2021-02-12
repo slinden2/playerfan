@@ -45,7 +45,7 @@ export interface NexusGenEnums {
   Role: "ADMIN" | "MODERATOR" | "USER"
   RosterStatus: "I" | "N" | "Y"
   ShootsCatches: "L" | "R"
-  StatSortFields: "assists" | "blocked" | "evenSavePct" | "evenSaves" | "evenTimeOnIce" | "faceOffsTaken" | "faceOffWins" | "giveaways" | "goals" | "hits" | "plusMinus" | "penaltyMinutes" | "points" | "powerPlayAssists" | "powerPlayGoals" | "powerPlaySavePct" | "powerPlaySaves" | "powerPlayShotsAgainst" | "powerPlayTimeOnIce" | "savePct" | "saves" | "shots" | "shotsAgainst" | "shortHandedAssists" | "shortHandedGoals" | "shortHandedSavePct" | "shortHandedSaves" | "shortHandedShotsAgainst" | "shortHandedTimeOnIce" | "takeaways" | "timeOnIce"
+  StatSortFields: "assists" | "blocked" | "evenSavePct" | "evenSaves" | "evenTimeOnIce" | "faceOffsTaken" | "faceOffWins" | "goalsAgainstAverage" | "giveaways" | "goals" | "hits" | "losses" | "plusMinus" | "penaltyMinutes" | "points" | "powerPlayAssists" | "powerPlayGoals" | "powerPlaySavePct" | "powerPlaySaves" | "powerPlaySavePct" | "powerPlayShotsAgainst" | "powerPlayShotsAgainst" | "powerPlayTimeOnIce" | "savePct" | "saves" | "savesPerGame" | "savePct" | "shots" | "shotsAgainst" | "shotsAgainstPerGame" | "shutouts" | "shortHandedAssists" | "shortHandedGoals" | "shortHandedSavePct" | "shortHandedSaves" | "shortHandedSavePct" | "shortHandedShotsAgainst" | "shortHandedShotsAgainst" | "shortHandedTimeOnIce" | "takeaways" | "timeOnIce" | "wins" | "winPct"
   VideoDataType: "GOAL" | "SHOT"
 }
 
@@ -59,6 +59,31 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  BestGoalie: { // root type
+    assists: number; // Int!
+    firstName: string; // String!
+    gamePks: string; // String!
+    goals: number; // Int!
+    goalsAgainstAverage: number; // Float!
+    id: string; // ID!
+    lastName: string; // String!
+    losses: number; // Int!
+    penaltyMinutes: number; // Int!
+    playerSiteLink: string; // String!
+    powerPlaySavePct?: number | null; // Float
+    powerPlayShotsAgainst?: number | null; // Int
+    primaryPosition: string; // String!
+    savePct: number; // Float!
+    savesPerGame: number; // Float!
+    shortHandedSavePct?: number | null; // Float
+    shortHandedShotsAgainst?: number | null; // Int
+    shotsAgainstPerGame: number; // Float!
+    shutouts: number; // Int!
+    teamAbbreviation: string; // String!
+    teamSiteLink: string; // String!
+    winPct: number; // Float!
+    wins: number; // Int!
+  }
   BestSkater: { // root type
     assists: number; // Int!
     blocked: number; // Int!
@@ -313,7 +338,7 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
-  BestPlayer: NexusGenRootTypes['BestSkater'];
+  BestPlayer: NexusGenRootTypes['BestGoalie'] | NexusGenRootTypes['BestSkater'];
 }
 
 export interface NexusGenUnions {
@@ -324,6 +349,31 @@ export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  BestGoalie: { // field return type
+    assists: number; // Int!
+    firstName: string; // String!
+    gamePks: string; // String!
+    goals: number; // Int!
+    goalsAgainstAverage: number; // Float!
+    id: string; // ID!
+    lastName: string; // String!
+    losses: number; // Int!
+    penaltyMinutes: number; // Int!
+    playerSiteLink: string; // String!
+    powerPlaySavePct: number | null; // Float
+    powerPlayShotsAgainst: number | null; // Int
+    primaryPosition: string; // String!
+    savePct: number; // Float!
+    savesPerGame: number; // Float!
+    shortHandedSavePct: number | null; // Float
+    shortHandedShotsAgainst: number | null; // Int
+    shotsAgainstPerGame: number; // Float!
+    shutouts: number; // Int!
+    teamAbbreviation: string; // String!
+    teamSiteLink: string; // String!
+    winPct: number; // Float!
+    wins: number; // Int!
+  }
   BestSkater: { // field return type
     assists: number; // Int!
     blocked: number; // Int!
@@ -566,6 +616,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     allDivisions: Array<NexusGenRootTypes['Division'] | null>; // [Division]!
+    bestGoalies: NexusGenRootTypes['BestGoalie'][]; // [BestGoalie!]!
     bestSkaters: NexusGenRootTypes['BestSkater'][]; // [BestSkater!]!
   }
   SkaterBoxscore: { // field return type
@@ -666,6 +717,31 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  BestGoalie: { // field return type name
+    assists: 'Int'
+    firstName: 'String'
+    gamePks: 'String'
+    goals: 'Int'
+    goalsAgainstAverage: 'Float'
+    id: 'ID'
+    lastName: 'String'
+    losses: 'Int'
+    penaltyMinutes: 'Int'
+    playerSiteLink: 'String'
+    powerPlaySavePct: 'Float'
+    powerPlayShotsAgainst: 'Int'
+    primaryPosition: 'String'
+    savePct: 'Float'
+    savesPerGame: 'Float'
+    shortHandedSavePct: 'Float'
+    shortHandedShotsAgainst: 'Int'
+    shotsAgainstPerGame: 'Float'
+    shutouts: 'Int'
+    teamAbbreviation: 'String'
+    teamSiteLink: 'String'
+    winPct: 'Float'
+    wins: 'Int'
+  }
   BestSkater: { // field return type name
     assists: 'Int'
     blocked: 'Int'
@@ -908,6 +984,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     allDivisions: 'Division'
+    bestGoalies: 'BestGoalie'
     bestSkaters: 'BestSkater'
   }
   SkaterBoxscore: { // field return type name
@@ -1009,6 +1086,9 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Query: {
+    bestGoalies: { // args
+      input: NexusGenInputs['PlayerCardInput']; // PlayerCardInput!
+    }
     bestSkaters: { // args
       input: NexusGenInputs['PlayerCardInput']; // PlayerCardInput!
     }
@@ -1016,10 +1096,11 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  BestPlayer: "BestSkater"
+  BestPlayer: "BestGoalie" | "BestSkater"
 }
 
 export interface NexusGenTypeInterfaces {
+  BestGoalie: "BestPlayer"
   BestSkater: "BestPlayer"
 }
 
@@ -1035,7 +1116,7 @@ export type NexusGenScalarNames = keyof NexusGenScalars;
 
 export type NexusGenUnionNames = never;
 
-export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = "BestSkater";
+export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = "BestGoalie" | "BestSkater";
 
 export type NexusGenAbstractsUsingStrategyResolveType = never;
 

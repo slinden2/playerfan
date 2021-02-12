@@ -2,6 +2,46 @@
 ### Do not make changes to this file directly
 
 
+type BestGoalie implements BestPlayer {
+  assists: Int!
+
+  """First name of the player"""
+  firstName: String!
+  gamePks: String!
+  goals: Int!
+  goalsAgainstAverage: Float!
+
+  """CUID of the resource"""
+  id: ID!
+
+  """Last name of the player"""
+  lastName: String!
+  losses: Int!
+  penaltyMinutes: Int!
+
+  """Link to player profile"""
+  playerSiteLink: String!
+  powerPlaySavePct: Float
+  powerPlayShotsAgainst: Int
+
+  """Player position"""
+  primaryPosition: String!
+  savePct: Float!
+  savesPerGame: Float!
+  shortHandedSavePct: Float
+  shortHandedShotsAgainst: Int
+  shotsAgainstPerGame: Float!
+  shutouts: Int!
+
+  """Abbreviated three-letter team id"""
+  teamAbbreviation: String!
+
+  """Link to team profile"""
+  teamSiteLink: String!
+  winPct: Float!
+  wins: Int!
+}
+
 """Card meta data such as player name, team etc"""
 interface BestPlayer {
   assists: Int!
@@ -348,6 +388,7 @@ enum Position {
 
 type Query {
   allDivisions: [Division]!
+  bestGoalies(input: PlayerCardInput!): [BestGoalie!]!
   bestSkaters(input: PlayerCardInput!): [BestSkater!]!
 }
 
@@ -404,9 +445,11 @@ enum StatSortFields {
   EVEN_TON
   FO_TAKEN
   FO_WINS
+  GAA
   GIVEAWAYS
   GOALS
   HITS
+  LOSSES
   PLUSMINUS
   PM
   POINTS
@@ -414,20 +457,30 @@ enum StatSortFields {
   PP_GOALS
   PP_SAVEPCT
   PP_SAVES
+  PP_SAVE_PCT
   PP_SH
+  PP_SHOTS_AGAINST
   PP_TON
   SAVEPCT
   SAVES
+  SAVES_PER_GAME
+  SAVE_PCT
   SHOTS
   SHOTSAGAINST
+  SHOTS_AGAINST_PER_GAME
+  SHUTOUTS
   SH_ASSISTS
   SH_GOALS
   SH_SAVEPCT
   SH_SAVES
+  SH_SAVE_PCT
   SH_SH
+  SH_SHOTS_AGAINST
   SH_TON
   TAKEAWAYS
   TON
+  WINS
+  WIN_PCT
 }
 
 type Team {

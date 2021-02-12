@@ -23,3 +23,4 @@ export * from "./PlaybackType";
 export * from "./Playback";
 export * from "./card/BestPlayer";
 export * from "./card/BestSkater";
+export * from "./card/BestGoalie";
