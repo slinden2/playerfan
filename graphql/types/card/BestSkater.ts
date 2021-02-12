@@ -16,17 +16,24 @@ export const BestSkater = objectType({
     t.nonNull.int("plusMinus");
     t.nonNull.int("penaltyMinutes");
     t.nonNull.int("powerPlayGoals");
-    t.nonNull.int("powerPlayAssists");
+    t.nonNull.int("powerPlayPoints");
     t.nonNull.int("shortHandedGoals");
-    t.nonNull.int("shortHandedAssists");
-    t.nonNull.int("timeOnIcePerGame");
+    t.nonNull.int("shortHandedPoints");
+    t.nonNull.float("timeOnIcePerGame");
     t.nonNull.int("faceOffsTaken");
-    t.nonNull.int("faceOffWins");
+    t.float("faceOffPct");
     t.nonNull.int("shots");
     t.nonNull.int("hits");
     t.nonNull.int("takeaways");
     t.nonNull.int("giveaways");
     t.nonNull.int("blocked");
+    t.string("test");
+    t.nonNull.list.nonNull.field("gamePks", {
+      type: "String",
+      resolve: (parent) => {
+        return parent.gamePks.split(", ");
+      },
+    });
   },
 });
 
@@ -50,46 +57,55 @@ export const BestSkaterQuery = extendType({
             "PlayerStats"."plusMinus",
             "PlayerStats"."penaltyMinutes",
             "PlayerStats"."powerPlayGoals",
-            "PlayerStats"."powerPlayAssists",
+            "PlayerStats"."powerPlayPoints",
             "PlayerStats"."shortHandedGoals",
-            "PlayerStats"."shortHandedAssists",
+            "PlayerStats"."shortHandedPoints",
             "PlayerStats"."timeOnIcePerGame",
             "PlayerStats"."faceOffsTaken",
-            "PlayerStats"."faceOffWins",
+            "PlayerStats"."faceOffPct",
             "PlayerStats"."shots",
             "PlayerStats"."hits",
             "PlayerStats"."takeaways",
             "PlayerStats"."giveaways",
-            "PlayerStats"."blocked"
+            "PlayerStats"."blocked",
+            "PlayerStats"."gamePks"
           FROM
             (
               SELECT
                 "Player"."id",
+                SUM("Stats"."points") AS "points",
                 SUM("Stats"."goals") AS "goals",
                 SUM("Stats"."assists") AS "assists",
-                SUM("Stats"."points") AS "points",
+                SUM("Stats"."plusMinus") AS "plusMinus",
+                SUM("Stats"."penaltyMinutes") AS "penaltyMinutes",
+                SUM("Stats"."powerPlayGoals") AS "powerPlayGoals",
+                SUM("Stats"."powerPlayAssists" + "Stats"."powerPlayGoals") AS "powerPlayPoints",
+                SUM("Stats"."shortHandedGoals") AS "shortHandedGoals",
+                SUM("Stats"."shortHandedAssists" + "Stats"."shortHandedGoals") AS "shortHandedPoints",
+                AVG("Stats"."timeOnIce" :: FLOAT) AS "timeOnIcePerGame",
+                SUM("Stats"."faceOffsTaken") AS "faceOffsTaken",
+                AVG(
+                  CASE WHEN "Stats"."faceOffsTaken" > 0
+                  THEN "Stats"."faceOffWins" / "Stats"."faceOffsTaken" * 100
+                  END
+                  ) AS "faceOffPct",
                 SUM("Stats"."shots") AS "shots",
                 SUM("Stats"."hits") AS "hits",
-                SUM("Stats"."powerPlayGoals") AS "powerPlayGoals",
-                SUM("Stats"."powerPlayAssists") AS "powerPlayAssists",
-                SUM("Stats"."penaltyMinutes") AS "penaltyMinutes",
-                SUM("Stats"."faceOffsTaken") AS "faceOffsTaken",
-                SUM("Stats"."faceOffWins") AS "faceOffWins",
                 SUM("Stats"."takeaways") AS "takeaways",
                 SUM("Stats"."giveaways") AS "giveaways",
-                SUM("Stats"."shortHandedGoals") AS "shortHandedGoals",
-                SUM("Stats"."shortHandedAssists") AS "shortHandedAssists",
                 SUM("Stats"."blocked") AS "blocked",
-                SUM("Stats"."plusMinus") AS "plusMinus",
-                AVG("Stats"."timeOnIce") AS "timeOnIcePerGame",
-                AVG("Stats"."evenTimeOnIce") AS "evenTimeOnIcePerGame",
-                AVG("Stats"."powerPlayTimeOnIce") AS "powerPlayTimeOnIcePerGame",
-                AVG("Stats"."shortHandedTimeOnIce") AS "shortHandedTimeOnIcePerGame"
+                STRING_AGG(
+                  "Stats"."gamePk" :: TEXT,
+                  ', '
+                  ORDER BY
+                    "Stats"."gamePk"
+                ) as "gamePks"
               FROM
                 "Player"
                 INNER JOIN (
                   SELECT
                     "SkaterBoxscore"."playerId" AS "playerId",
+                    "SkaterBoxscore"."gamePk" AS "gamePk",
                     "SkaterBoxscore"."goals" AS "goals",
                     "SkaterBoxscore"."assists" AS "assists",
                     "SkaterBoxscore"."points" AS "points",
@@ -120,6 +136,7 @@ export const BestSkaterQuery = extendType({
                     JOIN "SkaterBoxscore" ON (
                       "Game"."id" = "SkaterBoxscore"."gameId"
                     )
+                  WHERE "Game"."gamePk" :: TEXT LIKE '${process.env.SEASON}%'
                 ) "Stats" ON (
                   "Player"."id" = "Stats"."playerId"
                 )
@@ -134,7 +151,7 @@ export const BestSkaterQuery = extendType({
           WHERE
             "PlayerTeam"."endDate" IS NULL
           ORDER BY
-            "PlayerStats"."${args.input.sortBy}" DESC,
+            "PlayerStats"."${args.input.sortBy}" DESC NULLS LAST,
             "PlayerStats"."points" DESC,
             "PlayerStats"."goals" DESC
           LIMIT ${args.input.take}`);

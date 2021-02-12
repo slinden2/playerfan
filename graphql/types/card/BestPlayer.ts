@@ -11,16 +11,20 @@ export const StatSortFields = enumType({
     HITS: "hits",
     PP_GOALS: "powerPlayGoals",
     PP_ASSISTS: "powerPlayAssists",
+    PP_POINTS: "powerPlayPoints",
     PM: "penaltyMinutes",
     FO_TAKEN: "faceOffsTaken",
     FO_WINS: "faceOffWins",
+    FO_PCT: "faceOffPct",
     TAKEAWAYS: "takeaways",
     GIVEAWAYS: "giveaways",
     SH_GOALS: "shortHandedGoals",
     SH_ASSISTS: "shortHandedAssists",
+    SH_POINTS: "shortHandedPoints",
     BLOCKED: "blocked",
     PLUSMINUS: "plusMinus",
     TON: "timeOnIce",
+    TON_PER_GAME: "timeOnIcePerGame",
     EVEN_TON: "evenTimeOnIce",
     PP_TON: "powerPlayTimeOnIce",
     SH_TON: "shortHandedTimeOnIce",
@@ -84,7 +88,5 @@ export const BestPlayer = interfaceType({
       description: "Abbreviated three-letter team id",
     });
     t.nonNull.string("teamSiteLink", { description: "Link to team profile" });
-    t.nonNull.int("goals");
-    t.nonNull.int("assists");
   },
 });
