@@ -44,11 +44,8 @@ type BestGoalie implements BestPlayer {
 
 """Card meta data such as player name, team etc"""
 interface BestPlayer {
-  assists: Int!
-
   """First name of the player"""
   firstName: String!
-  goals: Int!
 
   """CUID of the resource"""
   id: ID!
@@ -72,11 +69,12 @@ interface BestPlayer {
 type BestSkater implements BestPlayer {
   assists: Int!
   blocked: Int!
-  faceOffWins: Int!
+  faceOffPct: Float
   faceOffsTaken: Int!
 
   """First name of the player"""
   firstName: String!
+  gamePks: [String!]!
   giveaways: Int!
   goals: Int!
   hits: Int!
@@ -92,13 +90,13 @@ type BestSkater implements BestPlayer {
   playerSiteLink: String!
   plusMinus: Int!
   points: Int!
-  powerPlayAssists: Int!
   powerPlayGoals: Int!
+  powerPlayPoints: Int!
 
   """Player position"""
   primaryPosition: String!
-  shortHandedAssists: Int!
   shortHandedGoals: Int!
+  shortHandedPoints: Int!
   shots: Int!
   takeaways: Int!
 
@@ -107,7 +105,8 @@ type BestSkater implements BestPlayer {
 
   """Link to team profile"""
   teamSiteLink: String!
-  timeOnIcePerGame: Int!
+  test: String
+  timeOnIcePerGame: Float!
 }
 
 type Comment {
@@ -443,6 +442,7 @@ enum StatSortFields {
   EVEN_SAVEPCT
   EVEN_SAVES
   EVEN_TON
+  FO_PCT
   FO_TAKEN
   FO_WINS
   GAA
@@ -455,6 +455,7 @@ enum StatSortFields {
   POINTS
   PP_ASSISTS
   PP_GOALS
+  PP_POINTS
   PP_SAVEPCT
   PP_SAVES
   PP_SAVE_PCT
@@ -471,6 +472,7 @@ enum StatSortFields {
   SHUTOUTS
   SH_ASSISTS
   SH_GOALS
+  SH_POINTS
   SH_SAVEPCT
   SH_SAVES
   SH_SAVE_PCT
@@ -479,6 +481,7 @@ enum StatSortFields {
   SH_TON
   TAKEAWAYS
   TON
+  TON_PER_GAME
   WINS
   WIN_PCT
 }

@@ -19,6 +19,10 @@ export const schema = makeSchema({
         module: "@prisma/client",
         alias: "prisma",
       },
+      {
+        module: path.join(process.cwd(), "graphql", "sourceTypes", "index.ts"),
+        alias: "custom",
+      },
     ],
   },
   features: {

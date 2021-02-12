@@ -3,7 +3,7 @@
  * Do not make changes to this file directly
  */
 
-
+import * as custom from "./../graphql/sourceTypes/index"
 import { Context } from "./../graphql/context"
 import { core } from "nexus"
 declare global {
@@ -45,7 +45,7 @@ export interface NexusGenEnums {
   Role: "ADMIN" | "MODERATOR" | "USER"
   RosterStatus: "I" | "N" | "Y"
   ShootsCatches: "L" | "R"
-  StatSortFields: "assists" | "blocked" | "evenSavePct" | "evenSaves" | "evenTimeOnIce" | "faceOffsTaken" | "faceOffWins" | "goalsAgainstAverage" | "giveaways" | "goals" | "hits" | "losses" | "plusMinus" | "penaltyMinutes" | "points" | "powerPlayAssists" | "powerPlayGoals" | "powerPlaySavePct" | "powerPlaySaves" | "powerPlaySavePct" | "powerPlayShotsAgainst" | "powerPlayShotsAgainst" | "powerPlayTimeOnIce" | "savePct" | "saves" | "savesPerGame" | "savePct" | "shots" | "shotsAgainst" | "shotsAgainstPerGame" | "shutouts" | "shortHandedAssists" | "shortHandedGoals" | "shortHandedSavePct" | "shortHandedSaves" | "shortHandedSavePct" | "shortHandedShotsAgainst" | "shortHandedShotsAgainst" | "shortHandedTimeOnIce" | "takeaways" | "timeOnIce" | "wins" | "winPct"
+  StatSortFields: "assists" | "blocked" | "evenSavePct" | "evenSaves" | "evenTimeOnIce" | "faceOffPct" | "faceOffsTaken" | "faceOffWins" | "goalsAgainstAverage" | "giveaways" | "goals" | "hits" | "losses" | "plusMinus" | "penaltyMinutes" | "points" | "powerPlayAssists" | "powerPlayGoals" | "powerPlayPoints" | "powerPlaySavePct" | "powerPlaySaves" | "powerPlaySavePct" | "powerPlayShotsAgainst" | "powerPlayShotsAgainst" | "powerPlayTimeOnIce" | "savePct" | "saves" | "savesPerGame" | "savePct" | "shots" | "shotsAgainst" | "shotsAgainstPerGame" | "shutouts" | "shortHandedAssists" | "shortHandedGoals" | "shortHandedPoints" | "shortHandedSavePct" | "shortHandedSaves" | "shortHandedSavePct" | "shortHandedShotsAgainst" | "shortHandedShotsAgainst" | "shortHandedTimeOnIce" | "takeaways" | "timeOnIce" | "timeOnIcePerGame" | "wins" | "winPct"
   VideoDataType: "GOAL" | "SHOT"
 }
 
@@ -84,32 +84,7 @@ export interface NexusGenObjects {
     winPct: number; // Float!
     wins: number; // Int!
   }
-  BestSkater: { // root type
-    assists: number; // Int!
-    blocked: number; // Int!
-    faceOffWins: number; // Int!
-    faceOffsTaken: number; // Int!
-    firstName: string; // String!
-    giveaways: number; // Int!
-    goals: number; // Int!
-    hits: number; // Int!
-    id: string; // ID!
-    lastName: string; // String!
-    penaltyMinutes: number; // Int!
-    playerSiteLink: string; // String!
-    plusMinus: number; // Int!
-    points: number; // Int!
-    powerPlayAssists: number; // Int!
-    powerPlayGoals: number; // Int!
-    primaryPosition: string; // String!
-    shortHandedAssists: number; // Int!
-    shortHandedGoals: number; // Int!
-    shots: number; // Int!
-    takeaways: number; // Int!
-    teamAbbreviation: string; // String!
-    teamSiteLink: string; // String!
-    timeOnIcePerGame: number; // Int!
-  }
+  BestSkater: custom.BestSkater;
   Comment: { // root type
     content: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -338,7 +313,7 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
-  BestPlayer: NexusGenRootTypes['BestGoalie'] | NexusGenRootTypes['BestSkater'];
+  BestPlayer: custom.BestPlayer;
 }
 
 export interface NexusGenUnions {
@@ -377,9 +352,10 @@ export interface NexusGenFieldTypes {
   BestSkater: { // field return type
     assists: number; // Int!
     blocked: number; // Int!
-    faceOffWins: number; // Int!
+    faceOffPct: number | null; // Float
     faceOffsTaken: number; // Int!
     firstName: string; // String!
+    gamePks: string[]; // [String!]!
     giveaways: number; // Int!
     goals: number; // Int!
     hits: number; // Int!
@@ -389,16 +365,17 @@ export interface NexusGenFieldTypes {
     playerSiteLink: string; // String!
     plusMinus: number; // Int!
     points: number; // Int!
-    powerPlayAssists: number; // Int!
     powerPlayGoals: number; // Int!
+    powerPlayPoints: number; // Int!
     primaryPosition: string; // String!
-    shortHandedAssists: number; // Int!
     shortHandedGoals: number; // Int!
+    shortHandedPoints: number; // Int!
     shots: number; // Int!
     takeaways: number; // Int!
     teamAbbreviation: string; // String!
     teamSiteLink: string; // String!
-    timeOnIcePerGame: number; // Int!
+    test: string | null; // String
+    timeOnIcePerGame: number; // Float!
   }
   Comment: { // field return type
     author: NexusGenRootTypes['User']; // User!
@@ -704,9 +681,7 @@ export interface NexusGenFieldTypes {
     usernameLower: string; // String!
   }
   BestPlayer: { // field return type
-    assists: number; // Int!
     firstName: string; // String!
-    goals: number; // Int!
     id: string; // ID!
     lastName: string; // String!
     playerSiteLink: string; // String!
@@ -745,9 +720,10 @@ export interface NexusGenFieldTypeNames {
   BestSkater: { // field return type name
     assists: 'Int'
     blocked: 'Int'
-    faceOffWins: 'Int'
+    faceOffPct: 'Float'
     faceOffsTaken: 'Int'
     firstName: 'String'
+    gamePks: 'String'
     giveaways: 'Int'
     goals: 'Int'
     hits: 'Int'
@@ -757,16 +733,17 @@ export interface NexusGenFieldTypeNames {
     playerSiteLink: 'String'
     plusMinus: 'Int'
     points: 'Int'
-    powerPlayAssists: 'Int'
     powerPlayGoals: 'Int'
+    powerPlayPoints: 'Int'
     primaryPosition: 'String'
-    shortHandedAssists: 'Int'
     shortHandedGoals: 'Int'
+    shortHandedPoints: 'Int'
     shots: 'Int'
     takeaways: 'Int'
     teamAbbreviation: 'String'
     teamSiteLink: 'String'
-    timeOnIcePerGame: 'Int'
+    test: 'String'
+    timeOnIcePerGame: 'Float'
   }
   Comment: { // field return type name
     author: 'User'
@@ -1072,9 +1049,7 @@ export interface NexusGenFieldTypeNames {
     usernameLower: 'String'
   }
   BestPlayer: { // field return type name
-    assists: 'Int'
     firstName: 'String'
-    goals: 'Int'
     id: 'ID'
     lastName: 'String'
     playerSiteLink: 'String'
