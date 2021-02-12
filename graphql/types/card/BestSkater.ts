@@ -27,7 +27,6 @@ export const BestSkater = objectType({
     t.nonNull.int("takeaways");
     t.nonNull.int("giveaways");
     t.nonNull.int("blocked");
-    t.string("test");
     t.nonNull.list.nonNull.field("gamePks", {
       type: "String",
       resolve: (parent) => {

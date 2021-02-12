@@ -59,31 +59,7 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  BestGoalie: { // root type
-    assists: number; // Int!
-    firstName: string; // String!
-    gamePks: string; // String!
-    goals: number; // Int!
-    goalsAgainstAverage: number; // Float!
-    id: string; // ID!
-    lastName: string; // String!
-    losses: number; // Int!
-    penaltyMinutes: number; // Int!
-    playerSiteLink: string; // String!
-    powerPlaySavePct?: number | null; // Float
-    powerPlayShotsAgainst?: number | null; // Int
-    primaryPosition: string; // String!
-    savePct: number; // Float!
-    savesPerGame: number; // Float!
-    shortHandedSavePct?: number | null; // Float
-    shortHandedShotsAgainst?: number | null; // Int
-    shotsAgainstPerGame: number; // Float!
-    shutouts: number; // Int!
-    teamAbbreviation: string; // String!
-    teamSiteLink: string; // String!
-    winPct: number; // Float!
-    wins: number; // Int!
-  }
+  BestGoalie: custom.BestGoalie;
   BestSkater: custom.BestSkater;
   Comment: { // root type
     content: string; // String!
@@ -327,7 +303,7 @@ export interface NexusGenFieldTypes {
   BestGoalie: { // field return type
     assists: number; // Int!
     firstName: string; // String!
-    gamePks: string; // String!
+    gamePks: string[]; // [String!]!
     goals: number; // Int!
     goalsAgainstAverage: number; // Float!
     id: string; // ID!
@@ -374,7 +350,6 @@ export interface NexusGenFieldTypes {
     takeaways: number; // Int!
     teamAbbreviation: string; // String!
     teamSiteLink: string; // String!
-    test: string | null; // String
     timeOnIcePerGame: number; // Float!
   }
   Comment: { // field return type
@@ -742,7 +717,6 @@ export interface NexusGenFieldTypeNames {
     takeaways: 'Int'
     teamAbbreviation: 'String'
     teamSiteLink: 'String'
-    test: 'String'
     timeOnIcePerGame: 'Float'
   }
   Comment: { // field return type name

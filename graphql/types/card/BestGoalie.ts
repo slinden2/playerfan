@@ -25,7 +25,12 @@ export const BestGoalie = objectType({
     t.nonNull.int("penaltyMinutes");
     t.nonNull.int("goals");
     t.nonNull.int("assists");
-    t.nonNull.string("gamePks");
+    t.nonNull.list.nonNull.field("gamePks", {
+      type: "String",
+      resolve: (parent) => {
+        return parent.gamePks.split(", ");
+      },
+    });
   },
 });
 
@@ -135,7 +140,7 @@ export const BestGoalieQuery = extendType({
           WHERE
             "PlayerTeam"."endDate" IS NULL
           ORDER BY
-            "PlayerStats"."${args.input.sortBy}" DESC,
+            "PlayerStats"."${args.input.sortBy}" DESC NULLS LAST,
             "PlayerStats"."wins" DESC,
             "Player"."lastName"
           LIMIT ${args.input.take}`);

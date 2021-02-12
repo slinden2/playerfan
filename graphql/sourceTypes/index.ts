@@ -28,3 +28,22 @@ export interface BestSkater extends BestPlayer {
   blocked: number;
   gamePks: string;
 }
+
+export interface BestGoalie extends BestPlayer {
+  wins: number;
+  losses: number;
+  shutouts: number;
+  savePct: number;
+  goalsAgainstAverage: number;
+  powerPlaySavePct?: number;
+  shortHandedSavePct?: number;
+  powerPlayShotsAgainst?: number;
+  shortHandedShotsAgainst?: number;
+  savesPerGame: number;
+  shotsAgainstPerGame: number;
+  winPct: number;
+  penaltyMinutes: number;
+  goals: number;
+  assists: number;
+  gamePks: string;
+}
