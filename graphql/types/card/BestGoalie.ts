@@ -1,6 +1,6 @@
 import { arg, extendType, nonNull, objectType } from "nexus";
-import { PlayerCardInput } from "./BestPlayer";
 import { NexusGenObjects } from "../../../generated/nexus-typegen";
+import { CardInput } from "./CardInput";
 import { playerMetaQueryFields } from "./queryStrings";
 
 export const BestGoalie = objectType({
@@ -40,7 +40,7 @@ export const BestGoalieQuery = extendType({
     t.nonNull.list.nonNull.field("bestGoalies", {
       type: "BestGoalie",
       args: {
-        input: arg({ type: nonNull(PlayerCardInput) }),
+        input: arg({ type: nonNull(CardInput) }),
       },
       async resolve(_, args, ctx) {
         const result = await ctx.prisma.$queryRaw<
