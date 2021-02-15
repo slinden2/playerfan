@@ -29,7 +29,7 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  PlayerCardInput: { // input type
+  CardInput: { // input type
     numOfGames: number; // Int!
     sortBy: NexusGenEnums['StatSortFields']; // StatSortFields!
     take: number; // Int!
@@ -45,7 +45,7 @@ export interface NexusGenEnums {
   Role: "ADMIN" | "MODERATOR" | "USER"
   RosterStatus: "I" | "N" | "Y"
   ShootsCatches: "L" | "R"
-  StatSortFields: "assists" | "blocked" | "evenSavePct" | "evenSaves" | "evenTimeOnIce" | "faceOffPct" | "faceOffsTaken" | "faceOffWins" | "goalsAgainstAverage" | "giveaways" | "goals" | "hits" | "losses" | "plusMinus" | "penaltyMinutes" | "points" | "powerPlayAssists" | "powerPlayGoals" | "powerPlayPoints" | "powerPlaySavePct" | "powerPlaySaves" | "powerPlaySavePct" | "powerPlayShotsAgainst" | "powerPlayShotsAgainst" | "powerPlayTimeOnIce" | "savePct" | "saves" | "savesPerGame" | "savePct" | "shots" | "shotsAgainst" | "shotsAgainstPerGame" | "shutouts" | "shortHandedAssists" | "shortHandedGoals" | "shortHandedPoints" | "shortHandedSavePct" | "shortHandedSaves" | "shortHandedSavePct" | "shortHandedShotsAgainst" | "shortHandedShotsAgainst" | "shortHandedTimeOnIce" | "takeaways" | "timeOnIce" | "timeOnIcePerGame" | "wins" | "winPct"
+  StatSortFields: "assists" | "blocked" | "evenSavePct" | "evenSaves" | "evenTimeOnIce" | "faceOffPct" | "faceOffsTaken" | "faceOffWins" | "goalsAgainstAverage" | "giveaways" | "goals" | "goalsAgainst" | "goalsFor" | "hits" | "hitsAgainstPerGame" | "hitsForPerGame" | "losses" | "otLosses" | "penaltyKillPct" | "plusMinus" | "penaltyMinutes" | "points" | "powerPlayAssists" | "powerPlayGoals" | "powerPlayPct" | "powerPlayPoints" | "powerPlaySavePct" | "powerPlaySaves" | "powerPlaySavePct" | "powerPlayShotsAgainst" | "powerPlayShotsAgainst" | "powerPlayTimeOnIce" | "savePct" | "saves" | "savesPerGame" | "savePct" | "shots" | "shotsAgainst" | "shotsAgainstPerGame" | "shotsForPerGame" | "shutouts" | "shortHandedAssists" | "shortHandedGoals" | "shortHandedPoints" | "shortHandedSavePct" | "shortHandedSaves" | "shortHandedSavePct" | "shortHandedShotsAgainst" | "shortHandedShotsAgainst" | "shortHandedTimes" | "shortHandedTimeOnIce" | "takeaways" | "timeOnIce" | "timeOnIcePerGame" | "wins" | "winPct"
   VideoDataType: "GOAL" | "SHOT"
 }
 
@@ -61,6 +61,7 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   BestGoalie: custom.BestGoalie;
   BestSkater: custom.BestSkater;
+  BestTeam: custom.BestTeam;
   Comment: { // root type
     content: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -352,6 +353,31 @@ export interface NexusGenFieldTypes {
     teamSiteLink: string; // String!
     timeOnIcePerGame: number; // Float!
   }
+  BestTeam: { // field return type
+    abbreviation: string; // String!
+    awayRecord: string; // String!
+    gamePks: string[]; // [String!]!
+    giveaways: number; // Int!
+    goalsAgainst: number; // Int!
+    goalsFor: number; // Int!
+    hitsAgainstPerGame: number; // Float!
+    hitsForPerGame: number; // Float!
+    homeRecord: string; // String!
+    id: string; // ID!
+    locationName: string; // String!
+    losses: number; // Int!
+    otLosses: number; // Int!
+    penaltyKillPct: number; // Float!
+    powerPlayGoals: number; // Int!
+    powerPlayPct: number; // Float!
+    shortHandedTimes: number; // Int!
+    shotsAgainstPerGame: number; // Float!
+    shotsForPerGame: number; // Float!
+    siteLink: string; // String!
+    takeaways: number; // Int!
+    teamName: string; // String!
+    wins: number; // Int!
+  }
   Comment: { // field return type
     author: NexusGenRootTypes['User']; // User!
     content: string; // String!
@@ -570,6 +596,7 @@ export interface NexusGenFieldTypes {
     allDivisions: Array<NexusGenRootTypes['Division'] | null>; // [Division]!
     bestGoalies: NexusGenRootTypes['BestGoalie'][]; // [BestGoalie!]!
     bestSkaters: NexusGenRootTypes['BestSkater'][]; // [BestSkater!]!
+    bestTeams: NexusGenRootTypes['BestTeam'][]; // [BestTeam!]!
   }
   SkaterBoxscore: { // field return type
     assists: number; // Int!
@@ -718,6 +745,31 @@ export interface NexusGenFieldTypeNames {
     teamAbbreviation: 'String'
     teamSiteLink: 'String'
     timeOnIcePerGame: 'Float'
+  }
+  BestTeam: { // field return type name
+    abbreviation: 'String'
+    awayRecord: 'String'
+    gamePks: 'String'
+    giveaways: 'Int'
+    goalsAgainst: 'Int'
+    goalsFor: 'Int'
+    hitsAgainstPerGame: 'Float'
+    hitsForPerGame: 'Float'
+    homeRecord: 'String'
+    id: 'ID'
+    locationName: 'String'
+    losses: 'Int'
+    otLosses: 'Int'
+    penaltyKillPct: 'Float'
+    powerPlayGoals: 'Int'
+    powerPlayPct: 'Float'
+    shortHandedTimes: 'Int'
+    shotsAgainstPerGame: 'Float'
+    shotsForPerGame: 'Float'
+    siteLink: 'String'
+    takeaways: 'Int'
+    teamName: 'String'
+    wins: 'Int'
   }
   Comment: { // field return type name
     author: 'User'
@@ -937,6 +989,7 @@ export interface NexusGenFieldTypeNames {
     allDivisions: 'Division'
     bestGoalies: 'BestGoalie'
     bestSkaters: 'BestSkater'
+    bestTeams: 'BestTeam'
   }
   SkaterBoxscore: { // field return type name
     assists: 'Int'
@@ -1036,10 +1089,13 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Query: {
     bestGoalies: { // args
-      input: NexusGenInputs['PlayerCardInput']; // PlayerCardInput!
+      input: NexusGenInputs['CardInput']; // CardInput!
     }
     bestSkaters: { // args
-      input: NexusGenInputs['PlayerCardInput']; // PlayerCardInput!
+      input: NexusGenInputs['CardInput']; // CardInput!
+    }
+    bestTeams: { // args
+      input: NexusGenInputs['CardInput']; // CardInput!
     }
   }
 }
@@ -1065,7 +1121,7 @@ export type NexusGenScalarNames = keyof NexusGenScalars;
 
 export type NexusGenUnionNames = never;
 
-export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = "BestGoalie" | "BestSkater";
+export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = "BestGoalie" | "BestSkater" | "BestTeam";
 
 export type NexusGenAbstractsUsingStrategyResolveType = never;
 

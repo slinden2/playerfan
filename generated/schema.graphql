@@ -108,6 +108,43 @@ type BestSkater implements BestPlayer {
   timeOnIcePerGame: Float!
 }
 
+type BestTeam {
+  abbreviation: String!
+  awayRecord: String!
+  gamePks: [String!]!
+  giveaways: Int!
+  goalsAgainst: Int!
+  goalsFor: Int!
+  hitsAgainstPerGame: Float!
+  hitsForPerGame: Float!
+  homeRecord: String!
+  id: ID!
+  locationName: String!
+  losses: Int!
+  otLosses: Int!
+  penaltyKillPct: Float!
+  powerPlayGoals: Int!
+  powerPlayPct: Float!
+  shortHandedTimes: Int!
+  shotsAgainstPerGame: Float!
+  shotsForPerGame: Float!
+  siteLink: String!
+  takeaways: Int!
+  teamName: String!
+  wins: Int!
+}
+
+input CardInput {
+  """Number of games considered in stat accumulation"""
+  numOfGames: Int! = 1
+
+  """Primary sort column"""
+  sortBy: StatSortFields!
+
+  """Total number of cards queried"""
+  take: Int! = 50
+}
+
 type Comment {
   author: User!
   content: String!
@@ -356,17 +393,6 @@ type Player {
   weight: Int!
 }
 
-input PlayerCardInput {
-  """Number of games considered in stat accumulation"""
-  numOfGames: Int! = 1
-
-  """Primary sort column"""
-  sortBy: StatSortFields!
-
-  """Total number of cards queried"""
-  take: Int! = 50
-}
-
 type PlayerTeam {
   endDate: DateTime
   id: String!
@@ -386,8 +412,9 @@ enum Position {
 
 type Query {
   allDivisions: [Division]!
-  bestGoalies(input: PlayerCardInput!): [BestGoalie!]!
-  bestSkaters(input: PlayerCardInput!): [BestSkater!]!
+  bestGoalies(input: CardInput!): [BestGoalie!]!
+  bestSkaters(input: CardInput!): [BestSkater!]!
+  bestTeams(input: CardInput!): [BestTeam!]!
 }
 
 enum Role {
@@ -447,13 +474,20 @@ enum StatSortFields {
   GAA
   GIVEAWAYS
   GOALS
+  GOALS_AGAINST
+  GOALS_FOR
   HITS
+  HITS_AGAINST_PER_GAME
+  HITS_FOR_PER_GAME
   LOSSES
+  OT_LOSSES
+  PK_PCT
   PLUSMINUS
   PM
   POINTS
   PP_ASSISTS
   PP_GOALS
+  PP_PCT
   PP_POINTS
   PP_SAVEPCT
   PP_SAVES
@@ -468,6 +502,7 @@ enum StatSortFields {
   SHOTS
   SHOTSAGAINST
   SHOTS_AGAINST_PER_GAME
+  SHOTS_FOR_PER_GAME
   SHUTOUTS
   SH_ASSISTS
   SH_GOALS
@@ -477,6 +512,7 @@ enum StatSortFields {
   SH_SAVE_PCT
   SH_SH
   SH_SHOTS_AGAINST
+  SH_TIMES
   SH_TON
   TAKEAWAYS
   TON

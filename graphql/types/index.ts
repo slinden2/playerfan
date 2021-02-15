@@ -22,5 +22,7 @@ export * from "./Comment";
 export * from "./PlaybackType";
 export * from "./Playback";
 export * from "./card/BestPlayer";
+export * from "./card/CardInput";
 export * from "./card/BestSkater";
 export * from "./card/BestGoalie";
+export * from "./card/BestTeam";

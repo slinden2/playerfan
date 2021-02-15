@@ -47,3 +47,33 @@ export interface BestGoalie extends BestPlayer {
   assists: number;
   gamePks: string;
 }
+
+export interface BestTeam {
+  id: string;
+  teamName: string;
+  locationName: string;
+  abbreviation: string;
+  siteLink: string;
+  wins: number;
+  winsAway: number;
+  winsHome: number;
+  losses: number;
+  lossesAway: number;
+  lossesHome: number;
+  otLosses: number;
+  otLossesAway: number;
+  otLossesHome: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  powerPlayGoals: number;
+  powerPlayPct: number;
+  shortHandedTimes: number;
+  penaltyKillPct: number;
+  shotsForPerGame: number;
+  shotsAgainstPerGame: number;
+  takeaways: number;
+  giveaways: number;
+  hitsForPerGame: number;
+  hitsAgainstPerGame: number;
+  gamePks: string;
+}
