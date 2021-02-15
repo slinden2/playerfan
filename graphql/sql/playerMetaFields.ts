@@ -1,4 +1,4 @@
-export const playerMetaQueryFields = `"Player"."id",
+export const playerMetaFields = `"Player"."id",
 "Player"."firstName",
 "Player"."lastName",
 "Player"."siteLink" AS "playerSiteLink",
