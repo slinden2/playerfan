@@ -1,0 +1,25 @@
+query BestGoalie($numOfGames: Int!, $sortBy: StatSortFields!, $take: Int!) {
+  bestGoalies(
+    input: { numOfGames: $numOfGames, sortBy: $sortBy, take: $take }
+  ) {
+    id
+    firstName
+    lastName
+    teamAbbreviation
+    wins
+    losses
+    shutouts
+    savePct
+    goalsAgainstAverage
+    powerPlaySavePct
+    shortHandedSavePct
+    powerPlayShotsAgainst
+    shortHandedShotsAgainst
+    savesPerGame
+    shotsAgainstPerGame
+    winPct
+    penaltyMinutes
+    goals
+    assists
+  }
+}

@@ -1,37 +1,29 @@
-import { gql } from "@apollo/client";
+import { ApolloQueryResult } from "@apollo/client";
 import App from "../components/App";
-import { initializeApollo } from "../graphql/apolloClient";
+import { BestCardDocument, BestCardQuery } from "../generated/graphql";
+import { addApolloState, initializeApollo } from "../graphql/apolloClient";
 
-const IndexPage = (props: any) => {
-  console.log(props);
+interface Props {
+  bestCardsQuery: ApolloQueryResult<BestCardQuery>;
+}
+
+const IndexPage = ({ bestCardsQuery }: Props) => {
+  console.log(bestCardsQuery);
   return <App>I am just a page</App>;
 };
 
-const TestQuery = gql`
-  query {
-    bestSkaters {
-      firstName
-      lastName
-      teamAbbreviation
-      goals
-      assists
-      points
-    }
-  }
-`;
-
-export async function getStaticProps() {
+export const getStaticProps = async () => {
   const apolloClient = initializeApollo();
 
-  await apolloClient.query({
-    query: TestQuery,
-  });
+  const bestCardsQuery: ApolloQueryResult<BestCardQuery> = await apolloClient.query(
+    {
+      query: BestCardDocument,
+    }
+  );
 
-  return {
-    props: {
-      initialApolloState: apolloClient.cache.extract(),
-    },
-  };
-}
+  return addApolloState(apolloClient, {
+    props: { bestCardsQuery },
+  });
+};
 
 export default IndexPage;

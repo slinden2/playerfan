@@ -1,0 +1,27 @@
+query BestSkater($numOfGames: Int!, $sortBy: StatSortFields!, $take: Int!) {
+  bestSkaters(
+    input: { numOfGames: $numOfGames, sortBy: $sortBy, take: $take }
+  ) {
+    id
+    firstName
+    lastName
+    teamAbbreviation
+    points
+    goals
+    assists
+    plusMinus
+    penaltyMinutes
+    powerPlayGoals
+    powerPlayPoints
+    shortHandedGoals
+    shortHandedPoints
+    timeOnIcePerGame
+    faceOffsTaken
+    faceOffPct
+    shots
+    hits
+    takeaways
+    giveaways
+    blocked
+  }
+}

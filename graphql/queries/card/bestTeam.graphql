@@ -1,0 +1,26 @@
+query BestTeam($numOfGames: Int!, $sortBy: StatSortFields!, $take: Int!) {
+  bestTeams(input: { numOfGames: $numOfGames, sortBy: $sortBy, take: $take }) {
+    id
+    teamName
+    locationName
+    abbreviation
+    siteLink
+    wins
+    losses
+    otLosses
+    awayRecord
+    homeRecord
+    goalsFor
+    goalsAgainst
+    powerPlayGoals
+    powerPlayPct
+    shortHandedTimes
+    penaltyKillPct
+    shotsForPerGame
+    shotsAgainstPerGame
+    takeaways
+    giveaways
+    hitsForPerGame
+    hitsAgainstPerGame
+  }
+}
