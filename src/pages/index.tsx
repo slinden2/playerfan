@@ -1,5 +1,6 @@
 import { ApolloQueryResult } from "@apollo/client";
-import App from "../components/App";
+import React from "react";
+import App from "../common/components/App";
 import { BestCardDocument, BestCardQuery } from "../generated/graphql";
 import { addApolloState, initializeApollo } from "../graphql/apolloClient";
 

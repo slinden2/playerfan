@@ -6,12 +6,12 @@ import * as types from "./types";
 export const schema = makeSchema({
   types,
   contextType: {
-    module: path.join(process.cwd(), "graphql", "context.ts"),
+    module: path.join(process.cwd(), "src", "graphql", "context.ts"),
     export: "Context",
   },
   outputs: {
-    typegen: path.join(process.cwd(), "generated", "nexus-typegen.ts"),
-    schema: path.join(process.cwd(), "generated", "schema.graphql"),
+    typegen: path.join(process.cwd(), "src", "generated", "nexus-typegen.ts"),
+    schema: path.join(process.cwd(), "src", "generated", "schema.graphql"),
   },
   sourceTypes: {
     modules: [
@@ -20,7 +20,13 @@ export const schema = makeSchema({
         alias: "prisma",
       },
       {
-        module: path.join(process.cwd(), "graphql", "sourceTypes", "index.ts"),
+        module: path.join(
+          process.cwd(),
+          "src",
+          "graphql",
+          "sourceTypes",
+          "index.ts"
+        ),
         alias: "custom",
       },
     ],
