@@ -33,6 +33,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+debug.log
 
 # vscode
 .vscode
