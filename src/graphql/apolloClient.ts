@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import {
   ApolloClient,
-  HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
@@ -18,15 +17,29 @@ let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 const isBrowser: boolean = process.browser;
 
-const httpLink = new HttpLink({
-  uri: "http://localhost:3000/api/graphql", // Server URL (must be absolute)
-  credentials: "include", // Additional fetch() options like `credentials` or `headers`
-});
+const createIsomorphicLink = () => {
+  if (typeof window === "undefined") {
+    // server
+    const { SchemaLink } = require("@apollo/client/link/schema");
+    const { schema } = require("./schema");
+    // API routes are not triggered on build time so we need a context
+    // with PrismaClient in it here.
+    const { createContext } = require("graphql/context");
+    return new SchemaLink({ schema, context: createContext });
+  } else {
+    // client
+    const { HttpLink } = require("@apollo/client/link/http");
+    return new HttpLink({
+      uri: "http://localhost:3000/api/graphql",
+      credentials: "include",
+    });
+  }
+};
 
 const createApolloClient = () => {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
-    link: httpLink,
+    link: createIsomorphicLink(),
     cache: new InMemoryCache(),
     connectToDevTools: isBrowser,
   });

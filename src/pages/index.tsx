@@ -1,7 +1,7 @@
 import { ApolloQueryResult } from "@apollo/client";
+import { BestCardDocument, BestCardQuery } from "generated/graphql";
 import React from "react";
 import App from "../common/components/App";
-import { BestCardDocument, BestCardQuery } from "../generated/graphql";
 import { addApolloState, initializeApollo } from "../graphql/apolloClient";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 
 const IndexPage = ({ bestCardsQuery }: Props) => {
   console.log(bestCardsQuery);
-  return <App>I am just a page</App>;
+  return <App></App>;
 };
 
 export const getStaticProps = async () => {
