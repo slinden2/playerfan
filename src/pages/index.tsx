@@ -1,30 +1,24 @@
-import { ApolloQueryResult } from "@apollo/client";
-import { BestCardDocument, BestCardQuery } from "generated/graphql";
 import React from "react";
+import { GetStaticProps } from "next";
+import { PageBestCardComp, ssrBestCard } from "generated/page";
+
 import App from "../common/components/App";
-import { addApolloState, initializeApollo } from "../graphql/apolloClient";
+import BestCards from "../modules/cardViews/components/BestCards";
 
-interface Props {
-  bestCardsQuery: ApolloQueryResult<BestCardQuery>;
-}
+const IndexPage: PageBestCardComp = ({ data }) => {
+  if (!data) {
+    return <div>Something went wrong</div>;
+  }
 
-const IndexPage = ({ bestCardsQuery }: Props) => {
-  console.log(bestCardsQuery);
-  return <App></App>;
+  return (
+    <App>
+      <BestCards bestCardsQuery={data} />
+    </App>
+  );
 };
 
-export const getStaticProps = async () => {
-  const apolloClient = initializeApollo();
-
-  const bestCardsQuery: ApolloQueryResult<BestCardQuery> = await apolloClient.query(
-    {
-      query: BestCardDocument,
-    }
-  );
-
-  return addApolloState(apolloClient, {
-    props: { bestCardsQuery },
-  });
+export const getStaticProps: GetStaticProps = async () => {
+  return await ssrBestCard.getServerPage({}, null);
 };
 
 export default IndexPage;

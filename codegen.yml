@@ -2,7 +2,7 @@ overwrite: true
 schema: "http://localhost:3000/api/graphql"
 documents: "src/graphql/**/*.graphql"
 generates:
-  generated/graphql.tsx:
+  src/generated/graphql.tsx:
     plugins:
       - "typescript"
       - "typescript-operations"
@@ -14,20 +14,20 @@ generates:
       withComponent: false
       exportFragmentSpreadSubTypes: true
       documentMode: graphQLTag
-  # generated/page.tsx:
-  #   config:
-  #     documentMode: external
-  #     importDocumentNodeExternallyFrom: ./graphql
-  #     reactApolloVersion: 3
-  #     withHooks: true
-  #     # withHOC: false
-  #     # excludePatterns: 'getComments'
-  #     # excludePatternsOptions: 'i'
-  #     # customDataIdFromObjectName: 'test'
-  #     # customDataIdFromObjectImport: 'abc'
-  #     apolloClientInstanceImport: "../graphql/apolloClient"
-  #   preset: import-types
-  #   presetConfig:
-  #     typesPath: ./graphql
-  #   plugins:
-  #     - "graphql-codegen-apollo-next-ssr" # replace by - graphql-codegen-apollo-next-ssr
+  src/generated/page.tsx:
+    config:
+      documentMode: external
+      importDocumentNodeExternallyFrom: ./graphql
+      reactApolloVersion: 3
+      # withHooks: false
+      # withHOC: false
+      # excludePatterns: 'getComments'
+      # excludePatternsOptions: 'i'
+      # customDataIdFromObjectName: 'test'
+      # customDataIdFromObjectImport: 'abc'
+      apolloClientInstanceImport: "../graphql/apolloClient"
+    preset: import-types
+    presetConfig:
+      typesPath: ./graphql
+    plugins:
+      - "graphql-codegen-apollo-next-ssr"

@@ -7,11 +7,13 @@ import {
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
 
-export interface PageProps {
-  props?: Record<string, any>;
-}
+export const APOLLO_STATE_PROP_NAME = "apolloState";
 
-export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
+export interface PageOpts {
+  props?: Record<string, any>;
+  revalidate?: number;
+  notFound?: boolean;
+}
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
@@ -45,13 +47,12 @@ const createApolloClient = () => {
   });
 };
 
-export function initializeApollo(initialState: any = null) {
+export function getApolloClient(initialState: any = null) {
   const _apolloClient = apolloClient ?? createApolloClient();
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
   if (initialState) {
-    // _apolloClient.cache.restore(initialState);
     const existingCache = _apolloClient.extract();
 
     // Merge the existing cache into data passed from getStaticProps/getServerSideProps
@@ -76,20 +77,9 @@ export function initializeApollo(initialState: any = null) {
   return _apolloClient;
 }
 
-export function addApolloState(
-  client: typeof apolloClient,
-  pageProps: PageProps
-) {
-  if (pageProps?.props) {
-    pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract();
-  }
-
-  return pageProps;
-}
-
-export function useApollo(pageProps: PageProps) {
-  const state = pageProps.props?.[APOLLO_STATE_PROP_NAME];
-  const store = useMemo(() => initializeApollo(state), [state]);
+export function useApollo(pageProps: PageOpts["props"]) {
+  const state = pageProps?.[APOLLO_STATE_PROP_NAME];
+  const store = useMemo(() => getApolloClient(state), [state]);
 
   return store;
 }
