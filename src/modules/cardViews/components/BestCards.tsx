@@ -1,28 +1,22 @@
 import React from "react";
 import { BestCardQuery } from "generated/graphql";
 import CardRow from "modules/cardViews/components/CardRow";
+import { BestCardDataRow } from "modules/cardViews/types/BestCardDataRow";
 
 interface Props {
   bestCardsQuery: BestCardQuery;
 }
 
-type RowNames = "bestSkaters" | "bestGoalies" | "bestTeams";
-
-const rowNames = ["bestSkaters", "bestGoalies", "bestTeams"];
-
 const BestCards = ({ bestCardsQuery }: Props) => {
   return (
     <div>
-      {Object.entries(bestCardsQuery).map(([prop, val]) => {
-        if (rowNames.includes(prop)) {
-          return (
-            <CardRow
-              key={prop}
-              type={prop as RowNames}
-              queryData={val as any}
-            />
-          );
-        }
+      {Object.entries(bestCardsQuery).map((rowData) => {
+        const data = {
+          type: rowData[0],
+          cardArray: rowData[1],
+        };
+
+        return <CardRow key={rowData[0]} data={data as BestCardDataRow} />;
       })}
     </div>
   );

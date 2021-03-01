@@ -1,26 +1,38 @@
+import { BestCardDataRow } from "modules/cardViews/types/BestCardDataRow";
 import React from "react";
-import { BestCardQuery } from "generated/graphql";
-import assertNever from "utils/assertNever";
-
-interface Props {
-  type: "bestSkaters" | "bestGoalies" | "bestTeams";
-  queryData:
-    | Pick<BestCardQuery, "bestSkaters">
-    | Pick<BestCardQuery, "bestGoalies">
-    | Pick<BestCardQuery, "bestTeams">;
+export interface Props {
+  data: BestCardDataRow;
 }
 
-const CardRow = ({ type, queryData }: Props) => {
-  console.log(queryData);
-  switch (type) {
+const CardRow = ({ data }: Props) => {
+  switch (data.type) {
     case "bestSkaters":
-      return <div>{type}</div>;
+      return (
+        <div>
+          <h2>Top Skaters of the Last 5 Games</h2>
+          {data.cardArray.map((skater) => {
+            return <div key={skater.id}>{skater.lastName}</div>;
+          })}
+        </div>
+      );
     case "bestGoalies":
-      return <div>{type}</div>;
+      return (
+        <div>
+          <h2>Top Goalies of the Last 5 Games</h2>
+          {data.cardArray.map((goalie) => {
+            return <div key={goalie.id}>{goalie.lastName}</div>;
+          })}
+        </div>
+      );
     case "bestTeams":
-      return <div>{type}</div>;
-    default:
-      assertNever(type);
+      return (
+        <div>
+          <h2>Top Teams of the Last 5 Games</h2>
+          {data.cardArray.map((team) => {
+            return <div key={team.id}>{team.teamName}</div>;
+          })}
+        </div>
+      );
   }
 };
 
