@@ -1,5 +1,6 @@
 import { ApolloProvider } from "@apollo/client";
 import { AppProps } from "next/dist/next-server/lib/router/router";
+import { GlobalStyles } from "twin.macro";
 import { useApollo } from "../graphql/apolloClient";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -7,6 +8,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
+      <GlobalStyles />
       <Component {...pageProps} />
     </ApolloProvider>
   );

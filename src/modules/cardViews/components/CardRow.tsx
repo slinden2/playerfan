@@ -1,5 +1,6 @@
-import { BestCardDataRow } from "modules/cardViews/types/BestCardDataRow";
 import React from "react";
+import { BestCardDataRow } from "modules/cardViews/types/BestCardDataRow";
+
 export interface Props {
   data: BestCardDataRow;
 }
