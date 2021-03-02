@@ -85,11 +85,33 @@ select {
 :root {
   --bg-primary: #202225;
   --bg-secondary: #2f3136;
+  --bg-tertiary: #484c52;
   --text-primary: #eeeeee;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
-  background-color:var(--bg-primary);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Open Sans', 'sans-serif', Arial;
+  font-size: 1.6rem
+}
+
+button, select {
+    font-family: 'Quicksand', Arial;
+}
+
+h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2.4rem;
+  font-weight: 700;
 }
 `;
 

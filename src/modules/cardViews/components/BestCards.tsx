@@ -10,6 +10,7 @@ interface Props {
 const BestCards = ({ bestCardsQuery }: Props) => {
   return (
     <div>
+      <h1>Welcome to Player Fan</h1>
       {Object.entries(bestCardsQuery).map((rowData) => {
         const data = {
           type: rowData[0],
