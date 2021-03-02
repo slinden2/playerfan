@@ -1,6 +1,7 @@
 import { ApolloProvider } from "@apollo/client";
 import GlobalStyles from "common/components/GlobalStyles";
 import { AppProps } from "next/dist/next-server/lib/router/router";
+
 import { useApollo } from "../graphql/apolloClient";
 
 export default function App({ Component, pageProps }: AppProps) {

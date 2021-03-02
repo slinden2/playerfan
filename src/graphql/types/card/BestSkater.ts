@@ -1,4 +1,5 @@
 import { arg, extendType, nonNull, objectType } from "nexus";
+
 import { NexusGenObjects } from "../../../generated/nexus-typegen";
 import { bestSkaterSQLQuery } from "../../sql";
 import { CardInput } from "./CardInput";
@@ -45,9 +46,9 @@ export const BestSkaterQuery = extendType({
         input: arg({ type: nonNull(CardInput) }),
       },
       async resolve(_, args, ctx) {
-        const result = await ctx.prisma.$queryRaw<
-          NexusGenObjects["BestSkater"][]
-        >(bestSkaterSQLQuery(args.input));
+        const result = (await ctx.prisma.$queryRaw(
+          bestSkaterSQLQuery(args.input)
+        )) as NexusGenObjects["BestSkater"][];
         return result;
       },
     });

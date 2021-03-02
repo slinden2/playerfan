@@ -1,4 +1,5 @@
 import { arg, extendType, nonNull, objectType } from "nexus";
+
 import { NexusGenObjects } from "../../../generated/nexus-typegen";
 import { bestGoaliesSQLQuery } from "../../sql";
 import { CardInput } from "./CardInput";
@@ -43,9 +44,9 @@ export const BestGoalieQuery = extendType({
         input: arg({ type: nonNull(CardInput) }),
       },
       async resolve(_, args, ctx) {
-        const result = await ctx.prisma.$queryRaw<
-          NexusGenObjects["BestGoalie"][]
-        >(bestGoaliesSQLQuery(args.input));
+        const result = (await ctx.prisma.$queryRaw(
+          bestGoaliesSQLQuery(args.input)
+        )) as NexusGenObjects["BestGoalie"][];
         return result;
       },
     });

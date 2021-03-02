@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+/* eslint-disable @typescript-eslint/no-var-requires */
 import {
   ApolloClient,
   InMemoryCache,
@@ -6,10 +6,12 @@ import {
 } from "@apollo/client";
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
+import { useMemo } from "react";
 
 export const APOLLO_STATE_PROP_NAME = "apolloState";
 
 export interface PageOpts {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props?: Record<string, any>;
   revalidate?: number;
   notFound?: boolean;
@@ -47,6 +49,7 @@ const createApolloClient = () => {
   });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getApolloClient(initialState: any = null) {
   const _apolloClient = apolloClient ?? createApolloClient();
 

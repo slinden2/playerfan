@@ -1,4 +1,3 @@
-import React from "react";
 import { BestCardQuery } from "generated/graphql";
 import CardRow from "modules/cardViews/components/CardRow";
 import { BestCardDataRow } from "modules/cardViews/types/BestCardDataRow";

@@ -1,6 +1,5 @@
-import React from "react";
-import { GetStaticProps } from "next";
 import { PageBestCardComp, ssrBestCard } from "generated/page";
+import { GetStaticProps } from "next";
 
 import App from "../common/components/App";
 import BestCards from "../modules/cardViews/components/BestCards";
